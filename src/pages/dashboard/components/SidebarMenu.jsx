@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { NavLink, useLocation } from "react-router-dom"
-import Logo from "../../../assets/logo.png"
+import Logo from "../../../assets/logo2.png"
 import SidebarLinkGroup from "./SidebarLinkGroup"
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {

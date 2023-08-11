@@ -9,13 +9,13 @@ const Biblioteca = () => {
       {data.Biblioteca.map((Biblioteca, index) => (
         <div
           key={index}
-          className=" flex flex-wrap justify-center bg-gray-200 rounded-lg p-4 shadow"
+          className=" flex flex-wrap justify-center bg-gray-200 rounded-lg p-4 shadow text-black"
         >
           <div className="text-center">
             <img
               src={Biblioteca.portada}
               alt="Portada del libro"
-              className="mb-4"
+              className="mb-4 rounded-lg"
             />
             <Portada url={Biblioteca.portada} nomLibro={Biblioteca.titulo} />
             <div className="text-base lg:text-lg font-semibold mb-2 uppercase">

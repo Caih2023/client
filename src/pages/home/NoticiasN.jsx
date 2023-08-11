@@ -7,7 +7,7 @@ import Imagenes from "./ImgInicio";
 
 function NoticiasN() {
   const urlocal = `http://localhost:3000/api/noticias`;
-  const url = "http://localhost:4000/api/noticias-publicas";
+  const url = "https://caih-estadia.vercel.app/api/noticias";
 
   const { data, loading, error } = useFetch(url);
 
@@ -42,7 +42,7 @@ function NoticiasN() {
 
   function formatFecha(fecha) {
     const fechaObj = new Date(fecha);
-    const dia = fechaObj.getDate();
+    const dia = fechaObj.getDate() + 1;
     const mes = fechaObj.getMonth() + 1;
     const anio = fechaObj.getFullYear();
 
@@ -93,15 +93,15 @@ function NoticiasN() {
                   <div className="w-full">
                     <img
                       className="w-full h-52 sm:h-72 lg:h-52 rounded-2xl"
-                      src={noticia.foto[0]}
+                      src={noticia.galeria[0]}
                       alt={noticia.titulo}
                     />
                   </div>
                   <p className="text-black text-base py-4 relative overflow-hidden">
                     {truncateText(
-                      noticia.descripcion,
+                      noticia.informacion,
                       textLongitude,
-                      noticia.descripcion
+                      noticia.informacion
                     )}
                     {
                       <span>
@@ -117,11 +117,11 @@ function NoticiasN() {
                   </p>
 
                   <div className="flex justify-between pb-3">
-                    <span className="text-black text-base font-medium">
-                      <strong>Fecha de publicación: </strong>{" "}
-                      {formatFecha(noticia.fecha)}
-                    </span>
-                  </div>
+                  <span className="text-black text-base font-medium">
+                    <strong>Fecha de publicación: </strong>{" "}
+                    {formatFecha(noticia.fecha)}
+                  </span>
+                </div>
                 </div>
               </div>
             </div>

@@ -5,7 +5,6 @@ import {
   deleteNoticiasRequest,
   getNoticiaRequest,
   updateNoticiasRequest,
-  getNoticiasFull,
 } from "../api/noticias";
 
 const NoticiasContext = createContext();
@@ -63,13 +62,6 @@ export const NoticiasProvider = ({ children }) => {
     }
   };
 
-  const getNoticiasPublicas = async () => {
-    const res = await getNoticiasFull();
-    try {
-      setNoticias(res.data);
-    } catch (error) {}
-  };
-
   return (
     <NoticiasContext.Provider
       value={{
@@ -79,7 +71,6 @@ export const NoticiasProvider = ({ children }) => {
         deleteNoticia,
         getNoticia,
         updateNoticia,
-        getNoticiasPublicas
       }}
     >
       {children}

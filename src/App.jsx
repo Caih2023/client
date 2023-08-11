@@ -8,6 +8,7 @@ import {
   Profile,
   NoticiasPublicas,
   Error404,
+  Dashboard
 } from "./pages";
 import Recorridos from "./pages/recorridos/Recorridos";
 import MapsRecorridos from "./pages/recorridos/MapsRecorridos";

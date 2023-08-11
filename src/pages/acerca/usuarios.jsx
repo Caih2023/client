@@ -21,7 +21,7 @@ function usuarios() {
           data.map((usuario) => (
             <div
               key={usuario.id}
-              className="flex flex-col items-center bg-gray-200 rounded-xl overflow-hidden shadow-lg mb-5 py-3 text-black"
+              className="flex flex-col text-black items-center bg-gray-200 rounded-xl overflow-hidden shadow-lg mb-5 py-3"
             >
               <img
                 className="w-auto h-40 lg:h-44 m-5 rounded-full shadow-lg shadow-gray-700"

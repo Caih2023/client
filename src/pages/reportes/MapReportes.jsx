@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import axios from "axios";
 import Reportes from "./fromReportes";
-import { Toaster } from "react-hot-toast";
-import Navbar from "../../components/Navbar";
-import Footer from "../../context/Footer";
-export default function MapsReportes() {
+
+export default function MapsRecorridos() {
   const [mapInitialized, setMapInitialized] = useState(false);
   const [selectedLatLng, setSelectedLatLng] = useState(null);
   const mapRef = useRef(null);
   const markerRef = useRef(null);
+
 
   useEffect(() => {
     if (!mapInitialized) {
@@ -74,9 +74,9 @@ export default function MapsReportes() {
     }
   };
 
-  const handleMapClick = (e) => {
-    const { lat, lng } = e.latlng;
-    setSelectedLatLng({ lat, lng });
+ const handleMapClick = (e) => {
+   const { lat, lng } = e.latlng;
+   setSelectedLatLng({ lat, lng });
 
     // Mostrar las coordenadas en una alerta
     // console.log(`Latitud: ${lat}, Longitud: ${lng}`);
@@ -102,19 +102,14 @@ export default function MapsReportes() {
   };
 
   return (
-    <div>
-      <Navbar />
-      <div className="relative h-[120vh] md:h-screen">
-        <div
-          className="w-full h-full absolute top-0 left-0 z-0"
-          id="mi_map"
-        ></div>
-        <div className="absolute top-0 right-0 z-10">
-          <Reportes latLng={selectedLatLng} />
-          <Toaster />
-        </div>
+    <div className="relative h-[164vh] sm:h-110 md:h-100 mr-4 sm:mr-0 overflow-hidden">
+      <div
+        className="w-full h-full absolute top-0 left-0 z-0"
+        id="mi_map"
+      ></div>
+      <div className="absolute top-0 right-0 z-10">
+        <Reportes latLng={selectedLatLng}/>
       </div>
-      <Footer />
     </div>
   );
 }

@@ -3,8 +3,6 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
 import { createRoot } from "react-dom/client";
-import Navbar from "../../components/Navbar";
-import Footer from "../../context/Footer";
 
 import ImagenesRecorridos from "../slider/imagenes";
 
@@ -21,13 +19,15 @@ export default function Recorridos() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/recorrido");
+        const response = await axios.get(
+          "https://caih-estadia.vercel.app/api/recorridos"
+        );
         const data = response.data;
 
         const map = L.map("mi_map").setView(
           [
-            data[0].coordenadas.coordinates[0], //98
-            data[0].coordenadas.coordinates[1], //21
+            data[0].coordenadas.coordinates[0],
+            data[0].coordenadas.coordinates[1],
           ],
           15
         );
@@ -97,11 +97,7 @@ export default function Recorridos() {
 
   return (
     <div>
-      <Navbar />
-      <div style={{ position: "relative", zIndex: 0 }}>
-        <div className="w-full h-screen" id="mi_map"></div>
-      </div>
-      <Footer />
+      <div className="w-full h-screen" id="mi_map"></div>
     </div>
   );
 }

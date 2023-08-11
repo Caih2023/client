@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 export default class Error404 extends Component {
   render() {
@@ -10,21 +9,21 @@ export default class Error404 extends Component {
             <div className="-mx-4 flex">
               <div className="w-full px-4">
                 <div className="mx-auto max-w-[400px] text-center">
-                  <h2 className="mb-2 text-[50px] font-bold leading-none text-white sm:text-[80px] md:text-[100px]">
+                  <h2 className="mb-2 text-[50px] font-bold leading-none text-black sm:text-[80px] md:text-[100px]">
                     404
                   </h2>
-                  <h4 className="mb-3 text-[22px] font-semibold leading-tight text-white">
+                  <h4 className="mb-3 text-[22px] font-semibold leading-tight text-black">
                     ¡Ups! esta pagina no fue encontrada
                   </h4>
-                  <p className="mb-8 text-lg text-white">
+                  <p className="mb-8 text-lg text-black">
                     La página que buscas a sido eliminada
                   </p>
-                  <Link
-                    to={"/"}
-                    className="hover:text-primary inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white"
+                  <a
+                    href=""
+                    className="hover:text-primary inline-block rounded-lg border border-black px-8 py-3 text-center text-base font-semibold text-black transition hover:bg-white"
                   >
                     Inicio
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

@@ -43,7 +43,7 @@ function NoticiaCard({ noticia }) {
 
   function formatFecha(fecha) {
     const fechaObj = new Date(fecha);
-    const dia = fechaObj.getDate();
+    const dia = fechaObj.getDate() + 1;
     const mes = fechaObj.getMonth() + 1;
     const anio = fechaObj.getFullYear();
 
@@ -65,21 +65,16 @@ function NoticiaCard({ noticia }) {
 
   return (
     <div className="card1">
-      <div className="w-full  md:w-2/5 p-4 flex items-center">
-        <img
-          className="w-full h-full object-cover rounded-2xl"
-          src={noticia.foto[0]}
-          alt=""
-          // className="max-w-full h-auto"
-        />
+      <div className="w-full md:w-2/5 p-4 flex items-center">
+        {/* <Imagenes galeria={noticia.galeria} tamañoImagen={220} /> */}
       </div>
       <div className="w-full md:w-3/5 flex flex-col justify-between p-4">
         <>
           <div className="mb-4 relative">
-            <div className="text-black text-xl font-bold mb-2 uppercase">
+            <div className="text-xl font-bold mb-2 uppercase">
               {noticia.titulo}
             </div>
-            <p className="text-black text-base h-40 pr-2 py-2 overflow-hidden">
+            <p className="text-gray-900 text-base h-40 pr-2 py-2 overflow-hidden">
               {truncateText(
                 noticia.descripcion,
                 textLongitude,
@@ -90,7 +85,7 @@ function NoticiaCard({ noticia }) {
                   {" "}
                   <Link
                     className="text-blue-700 hover:underline"
-                    to={`/noticias-mas-inf/${noticia._id}`}
+                    to={`/noticias-mas-inf-galeria/${noticia._id}`}
                   >
                     Ver más
                   </Link>
@@ -115,7 +110,7 @@ function NoticiaCard({ noticia }) {
             </button>
             <Link
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1"
-              to={`/mi-noticia/${noticia._id}`}
+              to={`/noticias/${noticia._id}`}
             >
               Editar
             </Link>

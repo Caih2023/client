@@ -1,16 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import imagen from "../assets/acerca.jpg";
-import Navbar from "../components/Navbar";
-import Footer from "../context/Footer";
 
 function Register() {
-  const [tituloMEstudiosUrl, setTituloMEstudiosUrl] = useState("");
-  const [proyectoPUrl, setProyectoPUrl] = useState("");
-  const [imagenUrl, setImagenUrl] = useState("");
-
   const {
     register,
     handleSubmit,
@@ -20,43 +14,15 @@ function Register() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/noticia");
+    if (isAuthenticated) navigate("/tasks");
   }, [isAuthenticated]);
 
   const onSubmit = handleSubmit(async (values) => {
-    const { tituloMEstudios, proyectoP, imagen } = values;
-
-    // Subir archivos y obtener las URL
-    const tituloMEstudiosUrl = await handleDrop(tituloMEstudios[0]);
-    const proyectoPUrl = await handleDrop(proyectoP[0]);
-    const imagenUrl = await handleDrop(imagen[0]);
-
-    // Guardar las URL en el estado
-    setTituloMEstudiosUrl(tituloMEstudiosUrl);
-    setProyectoPUrl(proyectoPUrl);
-    setImagenUrl(imagenUrl);
     signup(values);
   });
 
-  const handleDrop = async (acceptedFiles) => {
-    if (Array.isArray(acceptedFiles)) {
-      const fileUrls = await Promise.all(
-        acceptedFiles.map(async (file) => {
-          const formData = new FormData();
-          formData.append("file", file);
-
-          const response = await axios.post("/upload", formData);
-          return response.data.url;
-        })
-      );
-
-      setImagenUrl(fileUrls[0]);
-    }
-  };
-
   return (
-    <div>
-      <Navbar />
+    <>
       <div
         className="flex items-center justify-center bg-gray-900 bg-cover bg-no-repeat"
         style={{
@@ -89,33 +55,33 @@ function Register() {
               al grupo CAIH
             </p>
 
+            {/* <-----  columnas de formulario  -----> */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              
               <div className="flex justify-center lg:justify-start">
-                <div className="form-control">
+                <div>
                   <label htmlFor="nombre" className="block text-white">
                     Usuario:
                   </label>
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu usuario"
-                    required
                     type="text"
-                    {...register("usuario")}
+                    {...register("usuario", { required: true })}
                   />
                 </div>
               </div>
 
               <div className="flex justify-center lg:justify-start">
-                <div className="form-control">
-                  <label htmlFor="nombre" className="block text-white">
+                <div>
+                  <label htmlFor="nombre" className="label">
                     Nombre:
                   </label>
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu nombre"
-                    required
                     type="text"
-                    {...register("nombre")}
+                    {...register("nombre", { required: true })}
                   />
                 </div>
               </div>
@@ -128,9 +94,8 @@ function Register() {
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu apellido paterno"
-                    required
                     type="text"
-                    {...register("apellidoP")}
+                    {...register("apellidoP", { required: true })}
                   />
                 </div>
               </div>
@@ -141,10 +106,9 @@ function Register() {
                     Apellido materno:
                   </label>
                   <input
-                    {...register("apellidoM")}
+                    {...register("apellidoM", { required: true })}
                     className="input input-alt text-center"
                     placeholder="Ingresa tu apellido materno"
-                    required
                     type="text"
                   />
                 </div>
@@ -156,10 +120,9 @@ function Register() {
                     Correo:
                   </label>
                   <input
-                    {...register("correo")}
+                    {...register("correo", { required: true })}
                     className="input input-alt text-center"
                     placeholder="Correo electrónico"
-                    required
                     type="email"
                   />
                 </div>
@@ -173,7 +136,6 @@ function Register() {
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu número telefónico"
-                    required
                     type="tel"
                   />
                 </div>
@@ -185,9 +147,8 @@ function Register() {
                     Fecha de nacimiento:
                   </label>
                   <input
-                    {...register("fechaN")}
+                    {...register("fechaN", { required: true })}
                     className="input input-alt text-center"
-                    required
                     type="date"
                   />
                 </div>
@@ -199,15 +160,10 @@ function Register() {
                     Título de estudios:
                   </label>
                   <input
-                    {...register("tituloMEstudios")}
+                    {...register("tituloMEstudios", { required: true })}
                     className="input input-alt text-center"
                     placeholder="Ingresa tu título de estudios"
-                    required
-                    type="file"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      setTituloMEstudiosUrl(file);
-                    }}
+                    type="archive"
                   />
                 </div>
               </div>
@@ -218,10 +174,9 @@ function Register() {
                     Trabajo actual:
                   </label>
                   <input
-                    {...register("trabajoA")}
+                    {...register("trabajoA", { required: true })}
                     className="input input-alt text-center"
                     placeholder="Ingresa tu trabajo actual"
-                    required
                     type="text"
                   />
                 </div>
@@ -232,15 +187,10 @@ function Register() {
                     Proyecto personal:
                   </label>
                   <input
-                    {...register("proyectoP")}
+                    {...register("proyectoP", { required: true })}
                     className="input input-alt text-center"
                     placeholder="Ingresa tu proyecto personal"
-                    required
-                    type="file"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      setProyectoPUrl(file);
-                    }}
+                    type="text"
                   />
                 </div>
               </div>
@@ -250,15 +200,10 @@ function Register() {
                     Fotografía:
                   </label>
                   <input
-                    {...register("imagen")}
+                    {...register("imagen", { required: true })}
                     className="input input-alt text-center"
                     placeholder="Carga tu fotografía"
-                    required
                     type="file"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      setImageUrl(file);
-                    }}
                   />
                 </div>
               </div>
@@ -276,7 +221,7 @@ function Register() {
                     <option value="" disabled>
                       Selecciona quien te recomendo
                     </option>
-                    <option value="opcion1">
+                    <option value="opcion1" className="text-black">
                       MTI. Luis Alberto Mendoza San Juan
                     </option>
                     <option value="opcion2">
@@ -302,8 +247,7 @@ function Register() {
           </form>
         </div>
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }
 

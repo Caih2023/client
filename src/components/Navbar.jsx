@@ -27,7 +27,7 @@ function Navbar() {
           onClick={() => seleccionarClicks("inicio")}
         >
           <img
-            src="../assets/logo2.png"
+            src="src/assets/logo2.png"
             className="h-12 mr-3"
             alt="Flowbite Logo"
           />
@@ -144,7 +144,7 @@ function Navbar() {
                 aria-current="page"
                 onClick={() => seleccionarClicks("noticias")}
               >
-                Noticias
+                Noticias nuevas
               </Link>
             </li>
             <li>

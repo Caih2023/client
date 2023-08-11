@@ -28,7 +28,7 @@ function Navbar() {
           onClick={() => seleccionarClicks("inicio")}
         >
           <img
-            src="src/assets/logo2.png"
+            src="../assets/logo2.png"
             className="h-12 mr-3"
             alt="Flowbite Logo"
           />

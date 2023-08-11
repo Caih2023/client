@@ -144,7 +144,7 @@ function Navbar() {
                 aria-current="page"
                 onClick={() => seleccionarClicks("noticias")}
               >
-                Noticias nuevas
+                Noticias
               </Link>
             </li>
             <li>

@@ -7,7 +7,7 @@ import Imagenes from "./ImgInicio";
 
 function NoticiasN() {
   const urlocal = `http://localhost:3000/api/noticias`;
-  const url = "https://caih-estadia.vercel.app/api/noticias";
+  const url = "http://localhost:4000/api/noticias-publicas";
 
   const { data, loading, error } = useFetch(url);
 
@@ -42,7 +42,7 @@ function NoticiasN() {
 
   function formatFecha(fecha) {
     const fechaObj = new Date(fecha);
-    const dia = fechaObj.getDate() + 1;
+    const dia = fechaObj.getDate();
     const mes = fechaObj.getMonth() + 1;
     const anio = fechaObj.getFullYear();
 
@@ -80,7 +80,7 @@ function NoticiasN() {
     return (
       <>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-10 p-5 sm:p-10 text-justify">
-          {primerasNoticias.map((noticia) => (
+        {primerasNoticias.map((noticia) => (
             <div
               className="flex flex-col bg-gray-200 rounded-xl overflow-hidden shadow-lg mb-5 md:flex-row"
               key={noticia._id}
@@ -88,20 +88,20 @@ function NoticiasN() {
               <div className="w-full">
                 <div className="px-8 py-6">
                   <div className="text-black text-xl lg:text-xl text-center font-bold mb-2 uppercase">
-                    {noticia.titulo}
+                  {noticia.titulo}
                   </div>
                   <div className="w-full">
                     <img
                       className="w-full h-52 sm:h-72 lg:h-52 rounded-2xl"
-                      src={noticia.galeria[0]}
+                      src={noticia.foto[0]}
                       alt={noticia.titulo}
                     />
                   </div>
                   <p className="text-black text-base py-4 relative overflow-hidden">
                     {truncateText(
-                      noticia.informacion,
+                      noticia.descripcion,
                       textLongitude,
-                      noticia.informacion
+                      noticia.descripcion
                     )}
                     {
                       <span>

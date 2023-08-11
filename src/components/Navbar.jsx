@@ -32,7 +32,7 @@ function Navbar() {
             alt="Flowbite Logo"
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
-            CAIH hola
+            CAIH
           </span>
         </Link>
         <div className="flex items-center md:order-2">
@@ -144,7 +144,7 @@ function Navbar() {
                 aria-current="page"
                 onClick={() => seleccionarClicks("noticias")}
               >
-                Noticias
+                Noticias nuevas
               </Link>
             </li>
             <li>

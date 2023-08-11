@@ -8,7 +8,6 @@ import {
   Profile,
   NoticiasPublicas,
   Error404,
-  Dashboard,
 } from "./pages";
 import Recorridos from "./pages/recorridos/Recorridos";
 import MapsRecorridos from "./pages/recorridos/MapsRecorridos";
@@ -25,6 +24,7 @@ import { ReportesProvider } from "./context/ReportesContext";
 import { RecorridosProvider } from "./context/RecorridosContext";
 import ReportesMaps from "./pages/reportes/ReportesMaps";
 import Prueba from "./pages/recorridos/pruebademapa";
+import DefaultLayout from "./pages/dashboard/layout/DefaultLayout";
 
 function App() {
   return (
@@ -59,6 +59,7 @@ function App() {
                   path="/dashboard"
                   element={<Navigate to="/dashboard/noticias" />}
                 />
+                <Route path="/dashprueba" element={<DefaultLayout />} />
 
                 <Route path="/" element={<Inicio />} />
                 <Route path="/login" element={<Login />} />

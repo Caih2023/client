@@ -36,7 +36,7 @@ function Navbar() {
           </span>
         </Link>
         <div className="flex items-center md:order-2">
-        {isAuthenticated ? (
+          {isAuthenticated ? (
             <div className="flex items-center space-x-4">
               <div>
                 <Menu logout={logout} />
@@ -170,20 +170,6 @@ function Navbar() {
                 onClick={() => seleccionarClicks("biblioteca")}
               >
                 Biblioteca virtual
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/dashboard"
-                className={`nav ${
-                  seleccionarOpcion === "CrearNoticias"
-                    ? "text-blue-600"
-                    : "text-gray-100"
-                } `}
-                aria-current="page"
-                onClick={() => seleccionarClicks("CrearNoticias")}
-              >
-                Dashboard
               </Link>
             </li>
             <li>

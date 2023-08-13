@@ -146,7 +146,7 @@ function Navbar() {
             </li>
             <li>
               <Link
-                to="/reportes-ciudadanos"
+                to="/reporte"
                 className={`nav ${
                   seleccionarOpcion === "reportes"
                     ? "text-blue-600"

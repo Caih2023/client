@@ -164,16 +164,16 @@ export default function Reportes({ latLng }) {
             </Dropzone>
             {loading ? (
               <h2>Cargando imágenes...</h2>
-            ) : images.length > 0 ? (
+            ) : imagen.length > 0 ? (
               <div className="grid grid-cols-3 gap-4">
-                {images.map((img, index) => (
+                {imagen.map((img, index) => (
                   <div key={index}>
                     <img
                       src={img}
                       alt={`Imagen ${index + 1}`}
                       className="w-full h-auto"
                     />
-                    <button onClick={() => setImages([])}>
+                    <button onClick={() => setimagen([])}>
                       Eliminar imagen
                     </button>
                   </div>

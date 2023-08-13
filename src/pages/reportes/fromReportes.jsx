@@ -1,42 +1,84 @@
-import React from "react";
+import React, { useState } from "react";
+import { useReportes } from "../../context/ReportesContext";
 import Dropzone from "react-dropzone";
+import { useForm } from "react-hook-form";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 export default function Reportes({ latLng }) {
-  const [images, setImages] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+  const { register, handleSubmit, reset } = useForm();
+  const { createReporte } = useReportes();
+  const [imagen, setImagen] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleDrop = (files) => {
-    const upload = files.map((file) => {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("tags", "codeinfuse, medium, gist");
-      formData.append("upload_preset", "imagenes");
-      formData.append("api_key", "485221878133535");
-      formData.append("timestamp", Date.now() / 1000 / 0);
+  const onSubmit = handleSubmit(async (data) => {
+    const { titulo, descripcion, coordenadas, correo } = data;
+    const [latitud, longitud] = coordenadas.split(",");
+
+    const reporteData = {
+      titulo,
+      descripcion,
+      coordenadas: {
+        type: "Point",
+        coordinates: [parseFloat(longitud), parseFloat(latitud)],
+      },
+      correo,
+      imagen: imagen,
+    };
+
+    try {
+      createReporte(reporteData);
+      reset(); // Limpia los campos de input
+      setImagen([]); // Limpia el estado de las imágenes
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
+  });
+
+  const handleDrop = async (files) => {
+    try {
       setLoading(true);
-      return axios
-        .post(
+
+      const uploadPromises = files.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("tags", "codeinfuse, medium, gist");
+        formData.append("upload_preset", "imagenes");
+        formData.append("api_key", "485221878133535");
+        formData.append("timestamp", Date.now() / 1000 / 0);
+
+        // Verificar si el archivo es una imagen
+        if (!file.type.startsWith("image/")) {
+          toast.error("Solo se permiten archivos de imagen");
+        }
+
+        const response = await axios.post(
           "https://api.cloudinary.com/v1_1/dqjajqrru/image/upload",
           formData,
           {
             headers: { "X-Requested-With": "XMLHttpRequest" },
           }
-        )
-        .then((res) => {
-          const data = res.data;
-          const fileURL = data.url;
-          setImages((prevImages) => [...prevImages, fileURL]);
-        });
-    });
-    axios.all(upload).then(() => {
+        );
+
+        const fileURL = response.data.secure_url;
+        return fileURL;
+      });
+
+      const uploadedImages = await Promise.all(uploadPromises);
+      setImagen((prevImages) => [...prevImages, ...uploadedImages]);
+    } catch (error) {
+      console.error("Error uploading images:", error);
+    } finally {
       setLoading(false);
-    });
+    }
   };
 
   return (
     <div className="card-report justify-center">
-      <form className="mx-8 my-4 space-y-4 flex flex-col items-center">
+      <form
+        className="mx-8 my-4 space-y-4 flex flex-col items-center"
+        onSubmit={onSubmit}
+      >
         <h1 className="text-3xl md:text-left font-bold uppercase">Reporte</h1>
         <p className="text-gray-300 md:text-left">
           Los datos ingresados en este formulario son para realizar el reporte
@@ -50,11 +92,11 @@ export default function Reportes({ latLng }) {
                 Título:
               </label>
               <input
-                id="nombre"
                 className="input input-alt text-center"
                 placeholder="Titulo del reporte"
                 required
                 type="text"
+                {...register("titulo")}
               />
             </div>
           </div>
@@ -67,7 +109,7 @@ export default function Reportes({ latLng }) {
               <textarea
                 rows="5"
                 placeholder="Descripcion del reporte"
-                // {...register("descripcion")}
+                {...register("descripcion")}
                 className="input input-alt text-center"
               />
             </div>
@@ -79,11 +121,11 @@ export default function Reportes({ latLng }) {
                 Ubicación:
               </label>
               <input
-                id="apellidoM"
                 className="input input-alt text-center"
                 placeholder="Ingresa la ubicación"
                 defaultValue={latLng ? `${latLng.lat}, ${latLng.lng}` : ""}
                 required
+                {...register("coordenadas")}
                 type="text"
               />
             </div>
@@ -98,17 +140,28 @@ export default function Reportes({ latLng }) {
                 className="input input-alt text-center"
                 placeholder="Correo electrónico"
                 required
+                {...register("correo")}
                 type="email"
               />
             </div>
           </div>
-          </div>
+        </div>
 
-          <div className="flex justify-center md:justify-start">
+        <div className="flex justify-center md:justify-start">
           <div className="form-control responsive2">
             <label htmlFor="correo" className="label">
               Fotografía:
             </label>
+            <Dropzone className="dropzone" onDrop={handleDrop}>
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <div {...getRootProps({ className: "dropzone" })}>
+                    <input {...getInputProps()} />
+                    <p>Cargar imágenes</p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
             {loading ? (
               <h2>Cargando imágenes...</h2>
             ) : images.length > 0 ? (
@@ -127,16 +180,7 @@ export default function Reportes({ latLng }) {
                 ))}
               </div>
             ) : (
-              <Dropzone className="dropzone" onDrop={handleDrop}>
-                {({ getRootProps, getInputProps }) => (
-                  <section>
-                    <div {...getRootProps({ className: "dropzone" })}>
-                      <input {...getInputProps()} />
-                      <p>Cargar imágenes</p>
-                    </div>
-                  </section>
-                )}
-              </Dropzone>
+              <h2>No hay imágenes</h2>
             )}
           </div>
         </div>

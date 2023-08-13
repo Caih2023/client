@@ -67,7 +67,7 @@ function NoticiasMasInf() {
           {noticias.titulo}
           </div>
           <div className="text-black text-xl">
-            {data.informacion.split("\n").map((paragraph, index) => (
+            {data.descripcion.split("\n").map((paragraph, index) => (
               <React.Fragment key={index}>
                 {index < imageCount && (
                   <div

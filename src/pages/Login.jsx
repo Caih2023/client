@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import imagen from "../assets/acerca.jpg";
 import { Toaster } from "react-hot-toast";
+import Navbar from "../components/Navbar";
+import Footer from "../context/Footer";
 
 function Login() {
   const {
@@ -19,11 +21,19 @@ function Login() {
   });
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/noticia");
+    if (isAuthenticated) {
+      if (usuario.roles[0] === "admin" && isAuthenticated) {
+        navigate("/dashboard");
+      } else {
+        navigate("/mis-noticias");
+      }
+    }
+    console.log(isAuthenticated);
   }, [isAuthenticated]);
 
   return (
-    <>
+    <div>
+      <Navbar />
       <div
         className="flex h-screen w-full items-center justify-center bg-gray-900 bg-cover bg-no-repeat"
         style={{
@@ -80,7 +90,8 @@ function Login() {
           </div>
         </div>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }
 

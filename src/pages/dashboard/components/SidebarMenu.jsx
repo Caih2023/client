@@ -4,10 +4,8 @@ import caihf from "../../../assets/logo2.png";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import { Link } from "react-router-dom";
 import {
-  AiOutlineMenuUnfold,
   AiFillDashboard,
   AiOutlineUser,
-  AiOutlineInbox,
 } from "react-icons/ai";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -99,7 +97,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
-          <div className="bg-white h-[0.2rem] w-full mt-3"></div>
+          <div className="bg-white h-[0.1rem] w-full mt-[0.9rem]"></div>
         <nav className="mt-5 py-4 px-4 lg:mt-6 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
@@ -126,7 +124,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       </Link>
                       <Link
                         to="/dashboard/validacionusuarios"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 `}
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:hover:bg-meta-4 hover:text-primary`}
                       >
                         <AiFillDashboard />
                         Validación usuarios

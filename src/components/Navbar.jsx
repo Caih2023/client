@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Menu from "./MenuFlotante";
 
 function Navbar() {
   const { isAuthenticated, logout, usuario } = useAuth();

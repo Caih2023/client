@@ -8,11 +8,11 @@ import Footer from "../context/Footer";
 import axios from "axios";
 import Dropzone from "react-dropzone";
 import { FaFolderOpen } from "react-icons/fa";
-import { toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 function Register() {
   const { register, handleSubmit, setValue } = useForm();
-  const { signup, getUsersPublic, usuarios } = useAuth();
+  const { signup, getUsersPublic, usuarios, errors } = useAuth();
   const [images, setImages] = useState([]);
   const [tituloMEstudios, setTituloMEstudios] = useState([]);
   const [cv, setCv] = useState([]);
@@ -62,7 +62,7 @@ function Register() {
     };
 
     try {
-       signup(registroData);
+      signup(registroData);
       // navigate("/");
     } catch (error) {
       console.log(error);
@@ -603,6 +603,8 @@ function Register() {
           </form>
         </div>
       </div>
+      <Toaster reverseOrder={true} />
+
       <Footer />
     </div>
   );

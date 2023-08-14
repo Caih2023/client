@@ -45,3 +45,12 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
+
+export const validarUsuarios = async () => {
+  try {
+    const res = await axios.get("/validarusuarios");
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};

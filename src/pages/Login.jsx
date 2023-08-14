@@ -14,7 +14,7 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const { signin, isAuthenticated } = useAuth();
+  const { signin, isAuthenticated, usuario } = useAuth();
   const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
     signin(data);

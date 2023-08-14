@@ -165,17 +165,17 @@ export default function Dashboard() {
                   </a>
                 </Link>
               </li>
-              {/* <li>
-                <a
-                  href="#"
+              <li>
+                <Link
+                  to={"/dashboard/bandeja-entrada"}
                   className="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <AiOutlineInbox />
                   <span className="flex-1 ml-3 whitespace-nowrap">
                     Bandeja de entrada
                   </span>
-                </a>
-              </li> */}
+                </Link>
+              </li>
             </ul>
           </div>
         </aside>

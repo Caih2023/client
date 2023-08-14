@@ -22,6 +22,26 @@ function ValidarUsuarios() {
   if (usuariosOrdenados.length === 0) {
     return <h1>No se encontró ningún usuario</h1>;
   }
+  if (usuariosOrdenados.length > 0) {
+    return (
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Lista de Usuarios</h2>
+        <div className="card-cols">
+          {usuariosOrdenados.map((usuario) => (
+            <div
+              key={usuario._id}
+              className="flex-1 bg-black rounded-lg shadow p-4 mb-4"
+            >
+              <p>
+                {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
+              </p>
+              <p>Estado: {usuario.status}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import imagen from "../assets/acerca.jpg";
 import Navbar from "../components/Navbar";
 import Footer from "../context/Footer";
@@ -19,7 +19,7 @@ function Register() {
   const [proyectoP, setProyectoP] = useState([]);
   const [recomendadoPor, setRecomendadoPor] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [tituloMEstudiosProgress, setTituloMEstudiosProgress] = useState();
   const [proyectoPProgress, setproyectoPProgress] = useState();
@@ -60,11 +60,10 @@ function Register() {
       recomendadoPor: recomendadoPor,
       imagen: images,
     };
-    console.log(registroData);
 
     try {
-      signup(registroData);
-      navigate("/");
+       signup(registroData);
+      // navigate("/");
     } catch (error) {
       console.log(error);
     }

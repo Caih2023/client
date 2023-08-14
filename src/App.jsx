@@ -60,6 +60,8 @@ function App() {
                   path="/dashboard"
                   element={<Navigate to="/dashboard/noticias" />}
                 />
+
+                {/* DASBOARD DE PRUEBA */}
                 <Route path="/dashprueba" element={<DefaultLayout />} />
 
                 <Route path="/" element={<Inicio />} />

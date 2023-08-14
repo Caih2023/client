@@ -67,7 +67,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <a className="flex mt-6 ml-2 md:mr-24">
-          <img src={caihf} className="h-8 mr-3" alt="Caih Logo" />
+          <img src={caihf} className="h-10 mr-3" alt="Caih Logo" />
           <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
             CAIH
           </span>

@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
 import Logo from "../../../assets/logo2.png";
-import DarkModeSwitcher from "./DarkMode";
-import DropdownMessage from "./DropdownMessage";
-import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 
 const Header = (props) => {
@@ -45,20 +42,6 @@ const Header = (props) => {
         </div>
 
         <div className="flex items-center text-black gap-3 2xsm:gap-7 ml-auto">
-          <ul className="flex items-center gap-2 2xsm:gap-4">
-            {/* <!-- Dark Mode Toggler --> */}
-            <DarkModeSwitcher />
-            {/* <!-- Dark Mode Toggler --> */}
-
-            {/* <!-- Notification Menu Area --> */}
-            <DropdownNotification />
-            {/* <!-- Notification Menu Area --> */}
-
-            {/* <!-- Chat Notification Area --> */}
-            <DropdownMessage />
-            {/* <!-- Chat Notification Area --> */}
-          </ul>
-
           {/* <!-- User Area --> */}
           <DropdownUser />
           {/* <!-- User Area --> */}

@@ -22,42 +22,42 @@ function ValidarUsuarios() {
   if (usuariosOrdenados.length === 0) {
     return <h1>No se encontró ningún usuario</h1>;
   }
-  if (usuariosOrdenados.length > 0) {
-    return (
-      <div>
-        <h2 className="text-lg font-semibold mb-4">Lista de Usuarios</h2>
-        <div className="card-cols">
-          {usuariosOrdenados.map((usuario) => (
-            <div
-              key={usuario._id}
-              className="flex-1 bg-black rounded-lg shadow p-4 mb-4"
-            >
-              <p>
-                {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
-              </p>
-              <p>Estado: {usuario.status}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+
+  const activos = usuariosOrdenados.filter((usuario) => usuario.status === "activo");
+  const inactivos = usuariosOrdenados.filter((usuario) => usuario.status === "inactivo");
+  const rechazados = usuariosOrdenados.filter((usuario) => usuario.status === "rechazado");
 
   return (
     <div>
       <h2 className="text-lg font-semibold mb-4">Lista de Usuarios</h2>
-      <div className="card-cols">
-        {usuariosOrdenados.map((usuario) => (
-          <div
-            key={usuario._id}
-            className="flex-1 bg-black rounded-lg shadow p-4 mb-4"
-          >
-            <p>
-              {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
-            </p>
-            <p>Estado: {usuario.status}</p>
-          </div>
-        ))}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="col-span-1 border-r pr-4">
+          <h3 className="font-semibold mb-2">Usuarios Activos</h3>
+          {activos.map((usuario) => (
+            <div key={usuario._id} className="mb-4">
+              <p>{usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}</p>
+              <p>Estado: {usuario.status}</p>
+            </div>
+          ))}
+        </div>
+        <div className="col-span-1 border-r pr-4">
+          <h3 className="font-semibold mb-2">Usuarios Inactivos</h3>
+          {inactivos.map((usuario) => (
+            <div key={usuario._id} className="mb-4">
+              <p>{usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}</p>
+              <p>Estado: {usuario.status}</p>
+            </div>
+          ))}
+        </div>
+        <div className="col-span-1">
+          <h3 className="font-semibold mb-2">Usuarios Rechazados</h3>
+          {rechazados.map((usuario) => (
+            <div key={usuario._id} className="mb-4">
+              <p>{usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}</p>
+              <p>Estado: {usuario.status}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

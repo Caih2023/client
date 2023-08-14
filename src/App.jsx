@@ -8,7 +8,7 @@ import {
   Profile,
   NoticiasPublicas,
   Error404,
-  Dashboard
+  Dashboard,
 } from "./pages";
 import Recorridos from "./pages/recorridos/Recorridos";
 import MapsRecorridos from "./pages/recorridos/MapsRecorridos";
@@ -26,6 +26,7 @@ import { RecorridosProvider } from "./context/RecorridosContext";
 import ReportesMaps from "./pages/reportes/ReportesMaps";
 import Prueba from "./pages/recorridos/pruebademapa";
 import DefaultLayout from "./pages/dashboard/layout/DefaultLayout";
+import ValidarUsuarios from "./pages/admin/validarUsuarios";
 
 function App() {
   return (
@@ -45,8 +46,10 @@ function App() {
                     path="reportes-ciudadanos"
                     element={<ReportesMaps />}
                   />
-                  <Route path="noticias" element={<NoticiasPublicas />} />
-                  {/* Agrega más rutas anidadas si es necesario */}
+                  <Route
+                    path="validacionusuarios"
+                    element={<ValidarUsuarios />}
+                  />
                 </Route>
                 <Route
                   path="/dashboard"
@@ -54,11 +57,11 @@ function App() {
                 />
                 <Route
                   path="/dashboard"
-                  element={<Navigate to="/dashboard/reportes-ciudadanos" />}
+                  element={<Navigate to="/dashboard/validacionusuarios" />}
                 />
                 <Route
                   path="/dashboard"
-                  element={<Navigate to="/dashboard/noticias" />}
+                  element={<Navigate to="/dashboard/reportes-ciudadanos" />}
                 />
 
                 {/* DASBOARD DE PRUEBA */}

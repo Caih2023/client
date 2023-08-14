@@ -60,7 +60,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`text-white absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`text-white absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -68,7 +68,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <a className="flex mt-6 ml-2 md:mr-24">
           <img src={caihf} className="h-10 mr-3" alt="Caih Logo" />
-          <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+          <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">
             CAIH
           </span>
         </a>
@@ -99,7 +99,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
-        <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
+          <div className="bg-white h-[0.2rem] w-full mt-3"></div>
+        <nav className="mt-5 py-4 px-4 lg:mt-6 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
@@ -118,14 +119,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     <React.Fragment>
                       <Link
                         to="/dashboard/agregar-recorrido"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 `}
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:hover:bg-meta-4 hover:text-primary`}
                       >
                         <AiFillDashboard />
                         Agregar recorrido
                       </Link>
                       <Link
                         to="/dashboard/reportes-ciudadanos"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 `}
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:hover:bg-meta-4 hover:text-primary`}
                       >
                         <AiOutlineUser />
                         Reportes ciudadanos

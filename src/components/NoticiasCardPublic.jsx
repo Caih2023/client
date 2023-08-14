@@ -62,6 +62,7 @@ function NoticiasCardPublic({ noticia }) {
     };
   }, []);
 
+  
   return (
     <div className="card1">
       <div className="w-full h-64 md:w-2/3 lg:w-full xl:w-2/3 flex items-center">
@@ -105,7 +106,11 @@ function NoticiasCardPublic({ noticia }) {
             <div className="flex justify-between">
               <span className="text-black text-base font-medium">
                 <strong>Autor: </strong>
-                {noticia.usuario.nombre + " " + noticia.usuario.apellidoP}
+                {noticia.usuario &&
+                noticia.usuario.nombre &&
+                noticia.usuario.apellidoP
+                  ? noticia.usuario.nombre + " " + noticia.usuario.apellidoP
+                  : "Autor desconocido"}
               </span>
             </div>
           </div>

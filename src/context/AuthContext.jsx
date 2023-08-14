@@ -4,6 +4,7 @@ import {
   loginRequest,
   verityTokenRequet,
   getAllUsers,
+  validarUsuarios,
 } from "../api/auth";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -149,6 +150,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const validarUsers = async (userId, newStatus) => {
+    try {
+      const response = await validarUsuarios(userId, newStatus);
+      setUsuarios(response.data); // Actualizar la lista de usuarios en el estado
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -161,6 +171,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         errors,
         getUsersPublic,
+        validarUsers,
       }}
     >
       {children}

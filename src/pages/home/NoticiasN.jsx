@@ -77,10 +77,14 @@ function NoticiasN() {
     // Limitar el número de noticias a 5
     const primerasNoticias = noticiasOrdenadas.slice(0, 3);
 
+    const noticiasActivas = primerasNoticias.filter(
+      (noticia) => noticia.estado === "Activo"
+    );
+
     return (
       <>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-10 p-5 sm:p-10 text-justify">
-        {primerasNoticias.map((noticia) => (
+          {noticiasActivas.map((noticia) => (
             <div
               className="flex flex-col bg-gray-200 rounded-xl overflow-hidden shadow-lg mb-5 md:flex-row"
               key={noticia._id}
@@ -88,7 +92,7 @@ function NoticiasN() {
               <div className="w-full">
                 <div className="px-8 py-6">
                   <div className="text-black text-xl lg:text-xl text-center font-bold mb-2 uppercase">
-                  {noticia.titulo}
+                    {noticia.titulo}
                   </div>
                   <div className="w-full">
                     <img
@@ -117,11 +121,11 @@ function NoticiasN() {
                   </p>
 
                   <div className="flex justify-between pb-3">
-                  <span className="text-black text-base font-medium">
-                    <strong>Fecha de publicación: </strong>{" "}
-                    {formatFecha(noticia.fecha)}
-                  </span>
-                </div>
+                    <span className="text-black text-base font-medium">
+                      <strong>Fecha de publicación: </strong>{" "}
+                      {formatFecha(noticia.fecha)}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

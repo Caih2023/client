@@ -46,10 +46,10 @@ export const getAllUsers = async () => {
   }
 };
 
-export const validarUsuarios = async () => {
+export const validarUsuarios = async (userId, newStatus) => {
   try {
-    const res = await axios.get("/validarusuarios");
-    return res;
+    const res = await axios.put(`/modifyuserstatus/${userId}`, { newStatus });
+    return res.data; // Puedes retornar los datos actualizados si es necesario
   } catch (error) {
     throw error;
   }

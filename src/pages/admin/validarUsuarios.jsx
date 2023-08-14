@@ -10,8 +10,8 @@ function compareStatus(a, b) {
 }
 
 function ValidarUsuarios() {
-  const { getUsersPublic, usuarios } = useAuth();
-  console.log(usuarios);
+  const { getUsersPublic, usuarios, validarUsers } = useAuth();
+
   useEffect(() => {
     getUsersPublic();
   }, []);
@@ -22,10 +22,24 @@ function ValidarUsuarios() {
   if (usuariosOrdenados.length === 0) {
     return <h1>No se encontró ningún usuario</h1>;
   }
+  const handleStatusChange = async (userId, newStatus) => {
+    try {
+      await validarUsers(userId, newStatus); // Llamar a la función de contexto
+      getUsersPublic(); // Actualizar la lista de usuarios después del cambio
+    } catch (error) {
+      // Manejar el error si es necesario
+    }
+  };
 
-  const activos = usuariosOrdenados.filter((usuario) => usuario.status === "activo");
-  const inactivos = usuariosOrdenados.filter((usuario) => usuario.status === "inactivo");
-  const rechazados = usuariosOrdenados.filter((usuario) => usuario.status === "rechazado");
+  const activos = usuariosOrdenados.filter(
+    (usuario) => usuario.status === "activo"
+  );
+  const inactivos = usuariosOrdenados.filter(
+    (usuario) => usuario.status === "inactivo"
+  );
+  const rechazados = usuariosOrdenados.filter(
+    (usuario) => usuario.status === "rechazado"
+  );
 
   return (
     <div>
@@ -35,8 +49,20 @@ function ValidarUsuarios() {
           <h3 className="font-semibold mb-2">Usuarios Activos</h3>
           {activos.map((usuario) => (
             <div key={usuario._id} className="mb-4">
-              <p>{usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}</p>
+              <p>
+                {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
+              </p>
               <p>Estado: {usuario.status}</p>
+              <button
+                onClick={() => handleStatusChange(usuario._id, "inactivo")}
+              >
+                Desactivar
+              </button>
+              <button
+                onClick={() => handleStatusChange(usuario._id, "rechazado")}
+              >
+                Rechazar
+              </button>
             </div>
           ))}
         </div>
@@ -44,7 +70,9 @@ function ValidarUsuarios() {
           <h3 className="font-semibold mb-2">Usuarios Inactivos</h3>
           {inactivos.map((usuario) => (
             <div key={usuario._id} className="mb-4">
-              <p>{usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}</p>
+              <p>
+                {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
+              </p>
               <p>Estado: {usuario.status}</p>
             </div>
           ))}
@@ -53,7 +81,9 @@ function ValidarUsuarios() {
           <h3 className="font-semibold mb-2">Usuarios Rechazados</h3>
           {rechazados.map((usuario) => (
             <div key={usuario._id} className="mb-4">
-              <p>{usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}</p>
+              <p>
+                {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
+              </p>
               <p>Estado: {usuario.status}</p>
             </div>
           ))}

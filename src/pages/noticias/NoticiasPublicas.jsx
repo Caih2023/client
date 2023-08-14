@@ -12,11 +12,15 @@ function Noticia() {
   }, []);
   if (noticias.length == 0) return <h1>No se encontro ninguna noticia</h1>;
 
+  const noticiasActivas = noticias.filter(
+    (noticia) => noticia.estado === "Activo"
+  );
+
   return (
     <div>
       <Navbar />
       <div className="card-cols">
-        {noticias.map((noticia) => (
+        {noticiasActivas.map((noticia) => (
           <NoticiasCard noticia={noticia} key={noticia._id} />
         ))}
       </div>

@@ -1,8 +1,8 @@
-import axios from 'axios'
+import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:4000/api',
-    withCredentials: true,
-})
+  baseURL: "https://site-caih.vercel.app/api",
+  withCredentials: true,
+});
 
-export default instance
+export default instance;

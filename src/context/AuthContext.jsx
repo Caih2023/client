@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (usuario) => {
     try {
       const res = await registerRequest(usuario);
-      setUsuario(res.data);
+      setUsuario(res);
       setIsAuthenticated(true);
     } catch (error) {
       setErrors(error.response.data);
@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
   const signin = async (usuario) => {
     try {
       const res = await loginRequest(usuario);
+      setUsuario(res);
       setIsAuthenticated(true);
     } catch (error) {
       if (Array.isArray(error.response.data)) {
@@ -66,18 +67,22 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
         return setUsuario(null);
       }
+      // console.log(cookies.token);
 
       try {
         const res = await verityTokenRequet(cookies.token);
-        if (!res.data) {
+        // console.log(res.data);//no tiene .data
+        if (!res) {
           setIsAuthenticated(false);
           setLoading(false);
           return;
         }
         setIsAuthenticated(true);
-        setUsuario(res.data);
+        setUsuario(res);
         setLoading(false);
       } catch (error) {
+        // toast.error(error.response.data.message);
+        // console.log(error.response.data.message);
         setIsAuthenticated(false);
         setUsuario(null);
         setLoading(false);

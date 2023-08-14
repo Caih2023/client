@@ -32,17 +32,7 @@ function DashPrueba() {
         <Route path="/auth/signup" element={<SignUp />} />
         <Route element={<DefaultLayout />}>
           {/* Aqui se pueden agregar las rutas */}
-          <Route index element={<ECommerce />} />
-          {routes.map(({ path, component: Component }) => (
-            <Route
-              path={path}
-              element={
-                <Suspense fallback={<Loader />}>
-                  <Component />
-                </Suspense>
-              }
-            />
-          ))}
+          
           {/* Aqui termina */}
         </Route>
       </Routes>

@@ -37,42 +37,25 @@ function Navbar() {
         </Link>
         <div className="flex items-center md:order-2">
           {isAuthenticated ? (
-            <>
-              {/* <li> Welcome {usuario.usuario} </li> */}
-              <li>
-                <Link to="/add-task">Añadir tarea</Link>
-              </li>
-              <li>
-                <Link
-                  to="/"
-                  onClick={() => {
-                    logout();
-                    seleccionarClicks("Cerrar");
-                  }}
-                  className={`btn btn-blue ${
-                    seleccionarOpcion === "registro"
-                      ? "text-blue-600"
-                      : "text-gray-100"
-                  } `}
-                  aria-current="page"
-                >
-                  Cerrar sesion
-                </Link>
-              </li>
-            </>
+            <div className="flex items-center space-x-4">
+              <div>
+                <Menu logout={logout} />
+              </div>
+            </div>
           ) : (
             <>
               <Link
                 to="/login"
-                className={`btn btn-outline hover:text-white ${
-                  seleccionarOpcion === "login"
-                    ? "text-blue-600"
-                    : "text-gray-100"
-                } `}
+                className={`btn bg-gray-800 hover:text-black hover:bg-gray-300
+               ${
+                 seleccionarOpcion === "login"
+                   ? "text-blue-600"
+                   : "text-gray-100"
+               } `}
                 aria-current="page"
                 onClick={() => seleccionarClicks("login")}
               >
-                Iniciar sesion
+                Iniciar sesión
               </Link>
               <Link
                 to="/register"
@@ -163,7 +146,7 @@ function Navbar() {
             </li>
             <li>
               <Link
-                to="/reportes-ciudadanos"
+                to="/reporte"
                 className={`nav ${
                   seleccionarOpcion === "reportes"
                     ? "text-blue-600"
@@ -187,20 +170,6 @@ function Navbar() {
                 onClick={() => seleccionarClicks("biblioteca")}
               >
                 Biblioteca virtual
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/dashboard"
-                className={`nav ${
-                  seleccionarOpcion === "CrearNoticias"
-                    ? "text-blue-600"
-                    : "text-gray-100"
-                } `}
-                aria-current="page"
-                onClick={() => seleccionarClicks("CrearNoticias")}
-              >
-                Dashboard
               </Link>
             </li>
             <li>

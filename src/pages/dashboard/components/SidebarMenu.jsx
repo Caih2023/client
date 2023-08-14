@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import Logo from "../../../assets/logo2.png";
+import caihf from "../../../assets/logo2.png";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import { Link } from "react-router-dom";
 import {
@@ -66,9 +66,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <NavLink to="/">
-          <img src={Logo} alt="Logo" className="h-12 w-auto mt-6" />
-        </NavLink>
+        <a className="flex mt-6 ml-2 md:mr-24">
+          <img src={caihf} className="h-8 mr-3" alt="Caih Logo" />
+          <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+            CAIH
+          </span>
+        </a>
 
         <button
           ref={trigger}
@@ -117,14 +120,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         to="/dashboard/agregar-recorrido"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 `}
                       >
-                        <AiFillDashboard/>
+                        <AiFillDashboard />
                         Agregar recorrido
                       </Link>
                       <Link
                         to="/dashboard/reportes-ciudadanos"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 `}
                       >
-                        <AiOutlineUser/>
+                        <AiOutlineUser />
                         Reportes ciudadanos
                       </Link>
                     </React.Fragment>

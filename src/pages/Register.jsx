@@ -1,10 +1,16 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import imagen from "../assets/acerca.jpg";
+import Navbar from "../components/Navbar";
+import Footer from "../context/Footer";
 
 function Register() {
+  const [tituloMEstudiosUrl, setTituloMEstudiosUrl] = useState("");
+  const [proyectoPUrl, setProyectoPUrl] = useState("");
+  const [imagenUrl, setImagenUrl] = useState("");
+  
   const {
     register,
     handleSubmit,
@@ -18,11 +24,39 @@ function Register() {
   }, [isAuthenticated]);
 
   const onSubmit = handleSubmit(async (values) => {
+    const { tituloMEstudios, proyectoP, imagen } = values;
+
+    // Subir archivos y obtener las URL
+    const tituloMEstudiosUrl = await handleDrop(tituloMEstudios[0]);
+    const proyectoPUrl = await handleDrop(proyectoP[0]);
+    const imagenUrl = await handleDrop(imagen[0]);
+
+    // Guardar las URL en el estado
+    setTituloMEstudiosUrl(tituloMEstudiosUrl);
+    setProyectoPUrl(proyectoPUrl);
+    setImagenUrl(imagenUrl);
     signup(values);
   });
 
+  const handleDrop = async (acceptedFiles) => {
+    if (Array.isArray(acceptedFiles)) {
+      const fileUrls = await Promise.all(
+        acceptedFiles.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const response = await axios.post("/upload", formData);
+          return response.data.url;
+        })
+      );
+
+      setImagenUrl(fileUrls[0]);
+    }
+  };
+
   return (
-    <>
+    <div>
+      <Navbar />
       <div
         className="flex items-center justify-center bg-gray-900 bg-cover bg-no-repeat"
         style={{
@@ -55,7 +89,6 @@ function Register() {
               al grupo CAIH
             </p>
 
-            {/* <-----  columnas de formulario  -----> */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               
               <div className="flex justify-center lg:justify-start">
@@ -66,6 +99,7 @@ function Register() {
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu usuario"
+                    required
                     type="text"
                     {...register("usuario", { required: true })}
                   />
@@ -80,8 +114,9 @@ function Register() {
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu nombre"
+                    required
                     type="text"
-                    {...register("nombre", { required: true })}
+                    {...register("nombre")}
                   />
                 </div>
               </div>
@@ -94,8 +129,9 @@ function Register() {
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu apellido paterno"
+                    required
                     type="text"
-                    {...register("apellidoP", { required: true })}
+                    {...register("apellidoP")}
                   />
                 </div>
               </div>
@@ -106,9 +142,10 @@ function Register() {
                     Apellido materno:
                   </label>
                   <input
-                    {...register("apellidoM", { required: true })}
+                    {...register("apellidoM")}
                     className="input input-alt text-center"
                     placeholder="Ingresa tu apellido materno"
+                    required
                     type="text"
                   />
                 </div>
@@ -120,9 +157,10 @@ function Register() {
                     Correo:
                   </label>
                   <input
-                    {...register("correo", { required: true })}
+                    {...register("correo")}
                     className="input input-alt text-center"
                     placeholder="Correo electrónico"
+                    required
                     type="email"
                   />
                 </div>
@@ -147,9 +185,10 @@ function Register() {
                     Fecha de nacimiento:
                   </label>
                   <input
-                    {...register("fechaN", { required: true })}
-                    className="input input-alt text-center"
-                    type="date"
+                   {...register("fechaN")}
+                   className="input input-alt text-center"
+                   required
+                   type="date"
                   />
                 </div>
               </div>
@@ -160,10 +199,15 @@ function Register() {
                     Título de estudios:
                   </label>
                   <input
-                    {...register("tituloMEstudios", { required: true })}
-                    className="input input-alt text-center"
-                    placeholder="Ingresa tu título de estudios"
-                    type="archive"
+                   {...register("tituloMEstudios")}
+                   className="input input-alt text-center"
+                   placeholder="Ingresa tu título de estudios"
+                   required
+                   type="file"
+                   onChange={(e) => {
+                     const file = e.target.files[0];
+                     setTituloMEstudiosUrl(file);
+                   }}
                   />
                 </div>
               </div>
@@ -174,10 +218,11 @@ function Register() {
                     Trabajo actual:
                   </label>
                   <input
-                    {...register("trabajoA", { required: true })}
-                    className="input input-alt text-center"
-                    placeholder="Ingresa tu trabajo actual"
-                    type="text"
+                  {...register("trabajoA")}
+                  className="input input-alt text-center"
+                  placeholder="Ingresa tu trabajo actual"
+                  required
+                  type="text"
                   />
                 </div>
               </div>
@@ -187,10 +232,15 @@ function Register() {
                     Proyecto personal:
                   </label>
                   <input
-                    {...register("proyectoP", { required: true })}
+                    {...register("proyectoP")}
                     className="input input-alt text-center"
                     placeholder="Ingresa tu proyecto personal"
-                    type="text"
+                    required
+                    type="file"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setProyectoPUrl(file);
+                    }}
                   />
                 </div>
               </div>
@@ -200,10 +250,15 @@ function Register() {
                     Fotografía:
                   </label>
                   <input
-                    {...register("imagen", { required: true })}
-                    className="input input-alt text-center"
-                    placeholder="Carga tu fotografía"
-                    type="file"
+                   {...register("imagen")}
+                   className="input input-alt text-center"
+                   placeholder="Carga tu fotografía"
+                   required
+                   type="file"
+                   onChange={(e) => {
+                     const file = e.target.files[0];
+                     setImageUrl(file);
+                   }}
                   />
                 </div>
               </div>
@@ -247,7 +302,8 @@ function Register() {
           </form>
         </div>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }
 

@@ -25,7 +25,7 @@ import { ReportesProvider } from "./context/ReportesContext";
 import { RecorridosProvider } from "./context/RecorridosContext";
 import ReportesMaps from "./pages/reportes/ReportesMaps";
 import Prueba from "./pages/recorridos/pruebademapa";
-import DefaultLayout from "./pages/dashboard/layout/DefaultLayout";
+import DashPrueba from "./pages/dashboard/dashprueba";
 
 function App() {
   return (
@@ -60,7 +60,9 @@ function App() {
                   path="/dashboard"
                   element={<Navigate to="/dashboard/noticias" />}
                 />
-                <Route path="/dashprueba" element={<DefaultLayout />} />
+
+                {/* DASHBOARD DE PRUEBA */}
+                <Route path="/dashprueba" element={<DashPrueba />} />
 
                 <Route path="/" element={<Inicio />} />
                 <Route path="/login" element={<Login />} />

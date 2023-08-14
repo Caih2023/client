@@ -5,52 +5,259 @@ import { useNavigate } from "react-router-dom";
 import imagen from "../assets/acerca.jpg";
 import Navbar from "../components/Navbar";
 import Footer from "../context/Footer";
+import axios from "axios";
+import Dropzone from "react-dropzone";
+import { FaFolderOpen } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 
 function Register() {
-  const [tituloMEstudiosUrl, setTituloMEstudiosUrl] = useState("");
-  const [proyectoPUrl, setProyectoPUrl] = useState("");
-  const [imagenUrl, setImagenUrl] = useState("");
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const { signup, isAuthenticated, errors: registerErrors } = useAuth();
+  const { register, handleSubmit, setValue } = useForm();
+  const { signup, getUsersPublic, usuarios } = useAuth();
+  const [images, setImages] = useState([]);
+  const [tituloMEstudios, setTituloMEstudios] = useState([]);
+  const [cv, setCv] = useState([]);
+  const [proyectoP, setProyectoP] = useState([]);
+  const [recomendadoPor, setRecomendadoPor] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const [tituloMEstudiosProgress, setTituloMEstudiosProgress] = useState();
+  const [proyectoPProgress, setproyectoPProgress] = useState();
+  const [cvProgress, setcvProgress] = useState();
+
   useEffect(() => {
-    if (isAuthenticated) navigate("/tasks");
-  }, [isAuthenticated]);
+    getUsersPublic();
+  }, []);
 
-  const onSubmit = handleSubmit(async (values) => {
-    const { tituloMEstudios, proyectoP, imagen } = values;
+  const onSubmit = handleSubmit(async (data) => {
+    const formattedFechaN = new Date(data.fechaN).toISOString();
+    console.log(data);
+    console.log(formattedFechaN);
+    const {
+      usuario,
+      nombre,
+      apellidoP,
+      apellidoM,
+      correo,
+      telefono,
+      trabajoA,
+      publicaciones,
+    } = data;
 
-    // Subir archivos y obtener las URL
-    const tituloMEstudiosUrl = await handleDrop(tituloMEstudios[0]);
-    const proyectoPUrl = await handleDrop(proyectoP[0]);
-    const imagenUrl = await handleDrop(imagen[0]);
+    const registroData = {
+      usuario,
+      nombre,
+      apellidoP,
+      apellidoM,
+      correo,
+      telefono,
+      fechaN: formattedFechaN,
+      tituloMEstudios: tituloMEstudios,
+      cv: cv,
+      trabajoA,
+      proyectoP: proyectoP,
+      publicaciones,
+      recomendadoPor: recomendadoPor,
+      imagen: images,
+    };
+    console.log(registroData);
 
-    // Guardar las URL en el estado
-    setTituloMEstudiosUrl(tituloMEstudiosUrl);
-    setProyectoPUrl(proyectoPUrl);
-    setImagenUrl(imagenUrl);
-    signup(values);
+    try {
+      signup(registroData);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   });
 
-  const handleDrop = async (acceptedFiles) => {
-    if (Array.isArray(acceptedFiles)) {
-      const fileUrls = await Promise.all(
-        acceptedFiles.map(async (file) => {
-          const formData = new FormData();
-          formData.append("file", file);
+  const handleIamgenDrop = async (files) => {
+    try {
+      setLoading(true);
 
-          const response = await axios.post("/upload", formData);
-          return response.data.url;
-        })
+      const uploadPromises = files.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("tags", "codeinfuse, medium, gist");
+        formData.append("upload_preset", "imagenes");
+        formData.append("api_key", "485221878133535");
+        formData.append("timestamp", Date.now() / 1000 / 0);
+
+        // Verificar si el archivo es una imagen
+        if (!file.type.startsWith("image/")) {
+          toast.error("Solo se permiten archivos de imagen");
+        }
+
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/dqjajqrru/image/upload",
+          formData,
+          {
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+          }
+        );
+
+        const fileURL = response.data.secure_url;
+        return fileURL;
+      });
+
+      const uploadedImages = await Promise.all(uploadPromises);
+      setImages((prevImages) => [...prevImages, ...uploadedImages]);
+    } catch (error) {
+      console.error("Error uploading images:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTituloMEstudiosDrop = async (file) => {
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("tags", "codeinfuse, medium, gist");
+      formData.append("upload_preset", "documents"); // Cambiar a tu upload_preset para documentos
+      formData.append("api_key", "485221878133535");
+      formData.append("timestamp", Date.now() / 1000 / 0);
+
+      // Verificar si el archivo es un documento
+      // Por ejemplo, podrías verificar la extensión del archivo
+      const validExtensions = ["pdf", "PDF"]; // Ejemplo de extensiones válidas
+      const fileExtension = file.name.split(".").pop();
+      if (!validExtensions.includes(fileExtension)) {
+        toast.error("Solo se permiten archivos de documento (PDF)");
+        return;
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        "POST",
+        "https://api.cloudinary.com/v1_1/dqjajqrru/image/upload", // Cambiar a tu endpoint para cargar documentos en Cloudinary
+        true
       );
 
-      setImagenUrl(fileUrls[0]);
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percent = (event.loaded / event.total) * 100;
+          // Actualizar el progreso de carga aquí
+          setTituloMEstudiosProgress(percent);
+        }
+      };
+
+      xhr.onload = () => {
+        const fileURL = JSON.parse(xhr.responseText);
+        setTituloMEstudios(fileURL.url);
+        return fileURL; // Retorna la URL del archivo cargado
+      };
+
+      xhr.send(formData);
+    } catch (error) {
+      console.error("Error uploading document:", error);
+    } finally {
+      setLoading(false);
+      // Reiniciar el progreso después de cargar
+      setTituloMEstudiosProgress(0);
+    }
+  };
+
+  const handleCvDrop = async (file) => {
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("tags", "codeinfuse, medium, gist");
+      formData.append("upload_preset", "documents"); // Cambiar a tu upload_preset para documentos
+      formData.append("api_key", "485221878133535");
+      formData.append("timestamp", Date.now() / 1000 / 0);
+
+      // Verificar si el archivo es un documento
+      // Por ejemplo, podrías verificar la extensión del archivo
+      const validExtensions = ["pdf", "PDF"]; // Ejemplo de extensiones válidas
+      const fileExtension = file.name.split(".").pop();
+      if (!validExtensions.includes(fileExtension)) {
+        toast.error("Solo se permiten archivos de documento (PDF)");
+        return;
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        "POST",
+        "https://api.cloudinary.com/v1_1/dqjajqrru/image/upload", // Cambiar a tu endpoint para cargar documentos en Cloudinary
+        true
+      );
+
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percent = (event.loaded / event.total) * 100;
+          // Actualizar el progreso de carga aquí
+          setcvProgress(percent);
+        }
+      };
+
+      xhr.onload = () => {
+        const fileURL = JSON.parse(xhr.responseText);
+        setCv(fileURL.url);
+        return fileURL; // Retorna la URL del archivo cargado
+      };
+
+      xhr.send(formData);
+    } catch (error) {
+      console.error("Error uploading document:", error);
+    } finally {
+      setLoading(false);
+      // Reiniciar el progreso después de cargar
+      setcvProgress(0);
+    }
+  };
+
+  const handleProyectoPDrop = async (file) => {
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("tags", "codeinfuse, medium, gist");
+      formData.append("upload_preset", "documents"); // Cambiar a tu upload_preset para documentos
+      formData.append("api_key", "485221878133535");
+      formData.append("timestamp", Date.now() / 1000 / 0);
+
+      // Verificar si el archivo es un documento
+      // Por ejemplo, podrías verificar la extensión del archivo
+      const validExtensions = ["pdf", "PDF"]; // Ejemplo de extensiones válidas
+      const fileExtension = file.name.split(".").pop();
+      if (!validExtensions.includes(fileExtension)) {
+        toast.error("Solo se permiten archivos de documento (PDF)");
+        return;
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        "POST",
+        "https://api.cloudinary.com/v1_1/dqjajqrru/image/upload", // Cambiar a tu endpoint para cargar documentos en Cloudinary
+        true
+      );
+
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percent = (event.loaded / event.total) * 100;
+          // Actualizar el progreso de carga aquí
+          setproyectoPProgress(percent);
+        }
+      };
+
+      xhr.onload = () => {
+        const fileURL = JSON.parse(xhr.responseText);
+        setProyectoP(fileURL.url);
+        return fileURL; // Retorna la URL del archivo cargado
+      };
+
+      xhr.send(formData);
+    } catch (error) {
+      console.error("Error uploading document:", error);
+    } finally {
+      setLoading(false);
+      // Reiniciar el progreso después de cargar
+      setproyectoPProgress(0);
     }
   };
 
@@ -73,14 +280,7 @@ function Register() {
               />
             </div>
           </div>
-
-          {registerErrors.map((error, i) => (
-            <div className="bg-red-500 p-2 text-white" key={i}>
-              {error}
-            </div>
-          ))}
-
-          <form className="mx-8 m:mr-0 mt-8 space-y-4 " onSubmit={onSubmit}>
+          <form className="mx-8 m:mr-0 mt-8 space-y-4" onSubmit={onSubmit}>
             <h1 className="mt-4 text-3xl text-center font-bold uppercase">
               Registrarse
             </h1>
@@ -90,27 +290,22 @@ function Register() {
             </p>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              
               <div className="flex justify-center lg:justify-start">
                 <div>
-                  <label htmlFor="nombre" className="block text-white">
-                    Usuario:
-                  </label>
+                  <label className="block text-white">Usuario:</label>
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu usuario"
                     required
                     type="text"
-                    {...register("usuario", { required: true })}
+                    {...register("usuario")}
                   />
                 </div>
               </div>
 
               <div className="flex justify-center lg:justify-start">
                 <div>
-                  <label htmlFor="nombre" className="label">
-                    Nombre:
-                  </label>
+                  <label className="label">Nombre:</label>
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu nombre"
@@ -123,9 +318,7 @@ function Register() {
 
               <div className="flex justify-center lg:justify-start">
                 <div>
-                  <label htmlFor="apellidoP" className="label">
-                    Apellido paterno:
-                  </label>
+                  <label className="label">Apellido paterno:</label>
                   <input
                     className="input input-alt text-center"
                     placeholder="Ingresa tu apellido paterno"
@@ -172,6 +365,7 @@ function Register() {
                     Teléfono:
                   </label>
                   <input
+                    {...register("telefono")}
                     className="input input-alt text-center"
                     placeholder="Ingresa tu número telefónico"
                     type="tel"
@@ -185,29 +379,11 @@ function Register() {
                     Fecha de nacimiento:
                   </label>
                   <input
-                   {...register("fechaN")}
-                   className="input input-alt text-center"
-                   required
-                   type="date"
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-center lg:justify-start">
-                <div>
-                  <label htmlFor="tituloEstudios" className="label">
-                    Título de estudios:
-                  </label>
-                  <input
-                   {...register("tituloMEstudios")}
-                   className="input input-alt text-center"
-                   placeholder="Ingresa tu título de estudios"
-                   required
-                   type="file"
-                   onChange={(e) => {
-                     const file = e.target.files[0];
-                     setTituloMEstudiosUrl(file);
-                   }}
+                    {...register("fechaN")}
+                    className="input input-alt text-center"
+                    required
+                    type="date"
+                    onChange={(e) => setValue("fechaN", e.target.value)}
                   />
                 </div>
               </div>
@@ -218,11 +394,25 @@ function Register() {
                     Trabajo actual:
                   </label>
                   <input
-                  {...register("trabajoA")}
-                  className="input input-alt text-center"
-                  placeholder="Ingresa tu trabajo actual"
-                  required
-                  type="text"
+                    {...register("trabajoA")}
+                    className="input input-alt text-center"
+                    placeholder="Ingresa tu trabajo actual"
+                    required
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-center lg:justify-start">
+                <div>
+                  <label htmlFor="tituloEstudios" className="label">
+                    Publicaciones:
+                  </label>
+                  <input
+                    {...register("publicaciones")}
+                    className="input input-alt text-center"
+                    placeholder="Ingresa la url tus publicaiones"
+                    required
+                    type="text"
                   />
                 </div>
               </div>
@@ -232,34 +422,146 @@ function Register() {
                     Proyecto personal:
                   </label>
                   <input
-                    {...register("proyectoP")}
                     className="input input-alt text-center"
-                    placeholder="Ingresa tu proyecto personal"
+                    placeholder="Introduce tu proyecto"
                     required
                     type="file"
                     onChange={(e) => {
                       const file = e.target.files[0];
-                      setProyectoPUrl(file);
+                      handleProyectoPDrop(file);
                     }}
                   />
+                  {proyectoPProgress && (
+                    <div className="w-full bg-gray-200 rounded-full h-4 mb-4 dark:bg-gray-700">
+                      <div
+                        className="relative h-4 rounded-full"
+                        style={{
+                          width: `${proyectoPProgress}%`,
+                          transition: "width 0.3s ease-in-out",
+                        }}
+                      >
+                        <div className="bg-blue-600 absolute top-0 left-0 h-full w-full rounded-full dark:bg-blue-300"></div>
+                        <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-white font-semibold text-sm">
+                          {proyectoPProgress}%
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
+
+              <div className="flex justify-center lg:justify-start">
+                <div>
+                  <label htmlFor="tituloEstudios" className="label">
+                    Título maximo de estudios:
+                  </label>
+                  <input
+                    className="input input-alt text-center"
+                    placeholder="Ingresa tu título de estudios"
+                    required
+                    type="file"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      handleTituloMEstudiosDrop(file);
+                    }}
+                  />
+
+                  {tituloMEstudiosProgress && (
+                    <div className="w-full bg-gray-200 rounded-full h-4 mb-4 dark:bg-gray-700">
+                      <div
+                        className="relative h-4 rounded-full"
+                        style={{
+                          width: `${tituloMEstudiosProgress}%`,
+                          transition: "width 0.3s ease-in-out",
+                        }}
+                      >
+                        <div className="bg-blue-600 absolute top-0 left-0 h-full w-full rounded-full dark:bg-blue-300"></div>
+                        <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-white font-semibold text-sm">
+                          {tituloMEstudiosProgress}%
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex justify-center lg:justify-start">
+                <div>
+                  <label htmlFor="tituloEstudios" className="label">
+                    curriculum vitae:
+                  </label>
+                  <input
+                    className="input input-alt text-center"
+                    placeholder="Ingresa tu Curriculum vitae"
+                    required
+                    type="file"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      handleCvDrop(file);
+                    }}
+                  />
+                  {cvProgress && (
+                    <div className="w-full bg-gray-200 rounded-full h-4 mb-4 dark:bg-gray-700">
+                      <div
+                        className="relative h-4 rounded-full"
+                        style={{
+                          width: `${cvProgress}%`,
+                          transition: "width 0.3s ease-in-out",
+                        }}
+                      >
+                        <div className="bg-blue-600 absolute top-0 left-0 h-full w-full rounded-full dark:bg-blue-300"></div>
+                        <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-white font-semibold text-sm">
+                          {cvProgress}%
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               <div className="flex justify-center lg:justify-start">
                 <div>
                   <label htmlFor="fotografia" className="label">
                     Fotografía:
                   </label>
-                  <input
-                   {...register("imagen")}
-                   className="input input-alt text-center"
-                   placeholder="Carga tu fotografía"
-                   required
-                   type="file"
-                   onChange={(e) => {
-                     const file = e.target.files[0];
-                     setImageUrl(file);
-                   }}
-                  />
+                  <Dropzone className="dropzone" onDrop={handleIamgenDrop}>
+                    {({ getRootProps, getInputProps }) => (
+                      <section>
+                        <div
+                          {...getRootProps({ className: "dropzone-container" })}
+                        >
+                          <input {...getInputProps()} />
+                          <div className="dropzone-content">
+                            <FaFolderOpen className="folder-icon" />
+                            <p className="dropzone-message">
+                              Arrastra y suelta imágenes aquí o haz clic para
+                              cargar
+                            </p>
+                          </div>
+                        </div>
+                      </section>
+                    )}
+                  </Dropzone>
+                  {loading ? (
+                    <h2>Cargando imágenes...</h2>
+                  ) : (
+                    images.length > 0 && (
+                      <div className="grid grid-cols-3 gap-4 m-1">
+                        {images.map((img, index) => (
+                          <div key={index}>
+                            <img
+                              src={img}
+                              alt={`Imagen ${index + 1}`}
+                              className="w-full h-auto"
+                            />
+                            <button onClick={() => setImages([])}>
+                              Eliminar imagen
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
 
@@ -269,23 +571,23 @@ function Register() {
                     Recomendado por:
                   </label>
                   <select
-                    id="recomendacion"
-                    className="input input-alt text-center text-black"
+                    className="input input-alt text-center"
                     required
+                    value={recomendadoPor}
+                    onChange={(e) => setRecomendadoPor(e.target.value)}
                   >
                     <option value="" disabled>
-                      Selecciona quien te recomendo
+                      Selecciona quien te recomendó
                     </option>
-                    <option value="opcion1" className="text-black">
-                      MTI. Luis Alberto Mendoza San Juan
-                    </option>
-                    <option value="opcion2">
-                      Ing. Marta Gutierrez Castillo
-                    </option>
-                    <option value="opcion3">
-                      Lic. Eduardo Escobar Contreras
-                    </option>
-                    <option value="opcion4">MGA. Ana Bautista Vite</option>
+                    {usuarios.map((usuario, index) => (
+                      <option
+                        className="text-black"
+                        key={index}
+                        value={usuario._id} // Asigna el valor del ID del usuario como valor de la opción
+                      >
+                        {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

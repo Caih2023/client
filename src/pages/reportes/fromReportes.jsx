@@ -13,14 +13,14 @@ export default function Reportes({ latLng }) {
 
   const onSubmit = handleSubmit(async (data) => {
     const { titulo, descripcion, coordenadas, correo } = data;
-    const [latitud, longitud] = coordenadas.split(",");
+    // const [latitud, longitud] = coordenadas.split(",");
 
     const reporteData = {
       titulo,
       descripcion,
       coordenadas: {
         type: "Point",
-        coordinates: [parseFloat(longitud), parseFloat(latitud)],
+        coordinates: [parseFloat(latLng.lat), parseFloat(latLng.lng)],
       },
       correo,
       imagen: imagen,
@@ -173,7 +173,7 @@ export default function Reportes({ latLng }) {
                       alt={`Imagen ${index + 1}`}
                       className="w-full h-auto"
                     />
-                    <button onClick={() => setimagen([])}>
+                    <button onClick={() => setImagen([])}>
                       Eliminar imagen
                     </button>
                   </div>

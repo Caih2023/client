@@ -554,11 +554,43 @@ body {
 
 .dropzone {
   text-align: center;
+  width: 100%;
   padding: 20px;
   border: 3px dashed #d3d3d3;
   background-color: #fafafa;
   color: #bdbdbd;
   margin-bottom: 20px;
+}
+.dropzone-container {
+  border: 2px dashed #3498db; /* Borde con un color azul */
+  padding: 2px;
+  text-align: center;
+  background-color: #fff; /* Fondo gris claro */
+  border-radius: 8px;
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: border-color 0.3s; /* Transición suave para el cambio de color del borde */
+}
+
+.dropzone-container:hover {
+  border-color: #333; /* Cambia el color del borde al pasar el cursor */
+}
+
+.dropzone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.folder-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: #333; /* Color azul para el ícono de la carpeta */
+}
+
+.dropzone-message {
+  color: #0f0f0f;
+  font-size: 1rem;
+  margin: 0;
 }
 
 .responsive {

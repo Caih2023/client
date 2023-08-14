@@ -1,5 +1,10 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { registerRequest, loginRequest, verityTokenRequet } from "../api/auth";
+import {
+  registerRequest,
+  loginRequest,
+  verityTokenRequet,
+  getAllUsers,
+} from "../api/auth";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
@@ -18,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [usuarios, setUsuarios] = useState([]);
 
   const signup = async (usuario) => {
     try {
@@ -91,6 +97,15 @@ export const AuthProvider = ({ children }) => {
     checkLogin();
   }, []);
 
+  const getUsersPublic = async () => {
+    const res = await getAllUsers();
+    try {
+      setUsuarios(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -99,8 +114,10 @@ export const AuthProvider = ({ children }) => {
         logout,
         loading,
         usuario,
+        usuarios,
         isAuthenticated,
         errors,
+        getUsersPublic,
       }}
     >
       {children}

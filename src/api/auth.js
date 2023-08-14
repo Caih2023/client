@@ -36,3 +36,12 @@ export const verityTokenRequet = async () => {
     throw error;
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const res = await axios.get("/getallusers");
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};

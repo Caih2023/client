@@ -6,7 +6,6 @@ import Footer from "../../context/Footer";
 
 function Noticia() {
   const { getNoticiasPublicas, noticias } = useNoticias();
-  console.log(noticias);
 
   useEffect(() => {
     getNoticiasPublicas();

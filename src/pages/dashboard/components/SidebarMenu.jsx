@@ -5,8 +5,9 @@ import SidebarLinkGroup from "./SidebarLinkGroup";
 import { Link } from "react-router-dom";
 import {
   AiFillDashboard,
-  AiOutlineUser,
+  AiOutlineTeam,
 } from "react-icons/ai";
+import { LuUserCheck } from "react-icons/lu";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -126,14 +127,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         to="/dashboard/validacionusuarios"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:hover:bg-meta-4 hover:text-primary`}
                       >
-                        <AiFillDashboard />
+                        <LuUserCheck />
                         Validación usuarios
                       </Link>
                       <Link
                         to="/dashboard/reportes-ciudadanos"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:hover:bg-meta-4 hover:text-primary`}
                       >
-                        <AiOutlineUser />
+                        <AiOutlineTeam />
                         Reportes ciudadanos
                       </Link>
                     </React.Fragment>

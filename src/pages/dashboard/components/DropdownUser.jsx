@@ -36,7 +36,7 @@ const DropdownUser = () => {
   })
 
   return (
-    <div className="relative">
+    <div className="relative text-black dark:text-white">
       <Link
         ref={trigger}
         onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -44,7 +44,7 @@ const DropdownUser = () => {
         to="#"
       >
         <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
+          <span className="block text-sm font-medium">
             Thomas Anree
           </span>
           <span className="block text-xs">UX Designer</span>

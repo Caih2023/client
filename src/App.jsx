@@ -8,7 +8,7 @@ import {
   Profile,
   NoticiasPublicas,
   Error404,
-  Dashboard,
+  Dashboard
 } from "./pages";
 import Recorridos from "./pages/recorridos/Recorridos";
 import MapsRecorridos from "./pages/recorridos/MapsRecorridos";
@@ -45,6 +45,8 @@ function App() {
                     path="reportes-ciudadanos"
                     element={<ReportesMaps />}
                   />
+                  <Route path="noticias" element={<NoticiasPublicas />} />
+                  {/* Agrega más rutas anidadas si es necesario */}
                 </Route>
                 <Route
                   path="/dashboard"
@@ -54,9 +56,12 @@ function App() {
                   path="/dashboard"
                   element={<Navigate to="/dashboard/reportes-ciudadanos" />}
                 />
+                <Route
+                  path="/dashboard"
+                  element={<Navigate to="/dashboard/noticias" />}
+                />
                 <Route path="/dashprueba" element={<DefaultLayout />} />
 
-                {/* public */}
                 <Route path="/" element={<Inicio />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

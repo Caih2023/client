@@ -46,10 +46,20 @@ export const getAllUsers = async () => {
   }
 };
 
-export const validarUsuarios = async (userId, newStatus) => {
+export const updateStatusRequest = async (userId, newStatus) => {
   try {
-    const res = await axios.put(`/modifyuserstatus/${userId}`, { newStatus });
-    return res.data; // Puedes retornar los datos actualizados si es necesario
+    const response = await axios.put(`/updatestatus/${userId}`, { newStatus });
+    return response;
+  } catch (error) {
+    console.error("Error en la solicitud de actualización de estado:", error);
+    throw error;
+  }
+};
+
+export const perfil = async (id) => {
+  try {
+    const res = await axios.get(`/profile/${id}`);
+    return res.data;
   } catch (error) {
     throw error;
   }

@@ -1,35 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { Toaster, toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 function compareStatus(a, b) {
-  // Definimos el orden de estados (activo < inactivo < rechazado)
   const statusOrder = { activo: 1, inactivo: 2, rechazado: 3 };
-
-  // Comparamos los usuarios según el orden de sus estados
   return statusOrder[a.status] - statusOrder[b.status];
 }
 
 function ValidarUsuarios() {
-  const { getUsersPublic, usuarios, validarUsers } = useAuth();
+  const { getUsersPublic, usuarios } = useAuth();
 
   useEffect(() => {
     getUsersPublic();
   }, []);
 
-  // Ordenamos los usuarios según el estado
-  const usuariosOrdenados = [...usuarios].sort(compareStatus);
+  const usuariosOrdenados =
+    usuarios.length > 0 ? [...usuarios].sort(compareStatus) : [];
 
   if (usuariosOrdenados.length === 0) {
     return <h1>No se encontró ningún usuario</h1>;
   }
-  const handleStatusChange = async (userId, newStatus) => {
-    try {
-      await validarUsers(userId, newStatus); // Llamar a la función de contexto
-      getUsersPublic(); // Actualizar la lista de usuarios después del cambio
-    } catch (error) {
-      // Manejar el error si es necesario
-    }
-  };
 
   const activos = usuariosOrdenados.filter(
     (usuario) => usuario.status === "activo"
@@ -43,52 +34,75 @@ function ValidarUsuarios() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-4">Lista de Usuarios</h2>
+      {/* activos */}
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-1 border-r pr-4">
           <h3 className="font-semibold mb-2">Usuarios Activos</h3>
           {activos.map((usuario) => (
-            <div key={usuario._id} className="mb-4">
-              <p>
-                {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
-              </p>
-              <p>Estado: {usuario.status}</p>
-              <button
-                onClick={() => handleStatusChange(usuario._id, "inactivo")}
-              >
-                Desactivar
-              </button>
-              <button
-                onClick={() => handleStatusChange(usuario._id, "rechazado")}
-              >
-                Rechazar
-              </button>
+            <div
+              key={usuario._id}
+              className="mb-6 bg-white p-4 rounded-lg shadow-md"
+            >
+              <div className="flex-auto mt-4">
+                <p className="font-semibold text-lg mb-1 text-gray-900">
+                  {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
+                </p>
+                <p className="text-gray-600 mb-2">Estado: {usuario.status}</p>
+                <Link to={`/dashboard/usuario/${usuario._id}`}>
+                  <button className="m-1 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300">
+                    Ver más informacion
+                  </button>
+                </Link>
+              </div>
             </div>
           ))}
         </div>
+        {/* inactivos */}
         <div className="col-span-1 border-r pr-4">
           <h3 className="font-semibold mb-2">Usuarios Inactivos</h3>
           {inactivos.map((usuario) => (
-            <div key={usuario._id} className="mb-4">
-              <p>
-                {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
-              </p>
-              <p>Estado: {usuario.status}</p>
+            <div
+              key={usuario._id}
+              className="mb-6 bg-white p-4 rounded-lg shadow-md"
+            >
+              <div className="flex-auto mt-4">
+                <p className="font-semibold text-lg mb-1 text-gray-900">
+                  {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
+                </p>
+                <p className="text-gray-600 mb-2">Estado: {usuario.status}</p>
+                <Link to={`/dashboard/usuario/${usuario._id}`}>
+                  <button className="m-1 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300">
+                    Ver más informacion
+                  </button>
+                </Link>
+              </div>
             </div>
           ))}
         </div>
-        <div className="col-span-1">
+        {/* Rechazados */}
+        <div className="col-span-1 border-r pr-4">
           <h3 className="font-semibold mb-2">Usuarios Rechazados</h3>
           {rechazados.map((usuario) => (
-            <div key={usuario._id} className="mb-4">
-              <p>
-                {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
-              </p>
-              <p>Estado: {usuario.status}</p>
+            <div
+              key={usuario._id}
+              className="mb-6 bg-white p-4 rounded-lg shadow-md"
+            >
+              <div className="flex-auto mt-4">
+                <p className="font-semibold text-lg mb-1 text-gray-900">
+                  {usuario.nombre} {usuario.apellidoP} {usuario.apellidoM}
+                </p>
+                <p className="text-gray-600 mb-2">Estado: {usuario.status}</p>
+                <Link to={`/dashboard/usuario/${usuario._id}`}>
+                  <button className="m-1 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300">
+                    Ver más informacion
+                  </button>
+                </Link>
+              </div>
             </div>
           ))}
         </div>
       </div>
+      <Toaster reverseOrder={true} />
     </div>
   );
 }

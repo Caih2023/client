@@ -4,7 +4,8 @@ import {
   loginRequest,
   verityTokenRequet,
   getAllUsers,
-  validarUsuarios,
+  updateStatusRequest,
+  perfil,
 } from "../api/auth";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -144,18 +145,32 @@ export const AuthProvider = ({ children }) => {
   const getUsersPublic = async () => {
     const res = await getAllUsers();
     try {
-      setUsuarios(res.data);
+      if (res.status === 200) setUsuarios(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const validarUsers = async (userId, newStatus) => {
+  const updateStatus = async (userId, newStatus) => {
     try {
-      const response = await validarUsuarios(userId, newStatus);
-      setUsuarios(response.data); // Actualizar la lista de usuarios en el estado
+      const response = await updateStatusRequest(userId, newStatus);
+      // if (response) {
+      //   toast.success("Estado actualizado exitosamente");
+      // }
+      if (response.status === 200) setUsuarios(response.data); // Actualizar la lista de usuarios en el estado
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const getUserProfile = async (id) => {
+    try {
+      const response = await perfil(id);
+      // console.log(response,"context");
+      return response;
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      throw error;
     }
   };
 
@@ -171,7 +186,8 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         errors,
         getUsersPublic,
-        validarUsers,
+        updateStatus,
+        getUserProfile,
       }}
     >
       {children}

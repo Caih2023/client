@@ -100,7 +100,7 @@ function RecorridosForm({ latLng }) {
   return (
     <>
       <div className="card-report">
-        <form className="mx-8 m:mr-0 space-y-4 " onSubmit={onSubmit}>
+        <form className="mx-8 mt-5 mb-7 m:mr-0 space-y-4 " onSubmit={onSubmit}>
           <h1 className="text-3xl text-center font-bold uppercase">
             Recorrido
           </h1>
@@ -173,7 +173,7 @@ function RecorridosForm({ latLng }) {
                 {loading ? (
                   <h2>Cargando imágenes...</h2>
                 ) : images.length > 0 ? (
-                  <div>
+                  <div className="grid grid-cols-3 ml-3">
                     {images.map((img, index) => (
                       <div key={index}>
                         <img

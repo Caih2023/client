@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import Recorridos from "./RecorridosForm";
+import RecorridosForm from "./RecorridosForm";
 import { Toaster } from "react-hot-toast";
 
 export default function MapsRecorridos() {
   const [mapInitialized, setMapInitialized] = useState(false);
   const [selectedLatLng, setSelectedLatLng] = useState(null);
+  const [formHeight, setFormHeight] = useState("125vh"); // Altura inicial
   const mapRef = useRef(null);
   const markerRef = useRef(null);
 
@@ -16,6 +17,13 @@ export default function MapsRecorridos() {
       setMapInitialized(true);
     }
   }, [mapInitialized]);
+
+  useEffect(() => {
+    // Agregar 40vh adicionales en dispositivos pequeños (menos de 768px de ancho)
+    if (window.innerWidth < 768) {
+      setFormHeight(`calc(125vh + 40vh)`);
+    }
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -58,6 +66,7 @@ export default function MapsRecorridos() {
             // Aquí puedes mostrar un mensaje de error o dejar la ubicación predeterminada
           }
         );
+
       } else {
         console.error("Geolocalización no disponible");
         // Aquí puedes mostrar un mensaje de error o dejar la ubicación predeterminada
@@ -91,13 +100,13 @@ export default function MapsRecorridos() {
   };
 
   return (
-    <div className="relative h-[125vh] md:h-screen">
-      <div
-        className="w-full h-full absolute top-0 left-0 z-0"
-        id="mi_map"
-      ></div>
+    <div className="relative" style={{ height: formHeight }}>
+      <div className="w-full h-full absolute top-0 left-0 z-0" id="mi_map"></div>
       <div className="absolute top-0 right-0 z-10">
-        <Recorridos latLng={selectedLatLng} />
+        <RecorridosForm
+          latLng={selectedLatLng}
+          onFormHeightChange={setFormHeight}
+        />
         <Toaster />
       </div>
     </div>

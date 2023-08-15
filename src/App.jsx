@@ -27,8 +27,10 @@ import ReportesMaps from "./pages/reportes/ReportesMaps";
 import Prueba from "./pages/recorridos/pruebademapa";
 import DefaultLayout from "./pages/dashboard/layout/DefaultLayout";
 import ValidarUsuarios from "./pages/admin/validarUsuarios";
+import UsuarioMasInf from "./pages/admin/UsuarioMasInf";
 
 function App() {
+  
   return (
     <AuthProvider>
       <NoticiasProvider>
@@ -50,6 +52,7 @@ function App() {
                     path="validacionusuarios"
                     element={<ValidarUsuarios />}
                   />
+                  <Route path="usuario/:id" element={<UsuarioMasInf />} />
                 </Route>
                 <Route
                   path="/dashboard"
@@ -63,6 +66,11 @@ function App() {
                   path="/dashboard"
                   element={<Navigate to="/dashboard/reportes-ciudadanos" />}
                 />
+                <Route
+                  path="/dashboard"
+                  element={<Navigate to="/dashboard/usuario/:id" />}
+                />
+
 
                 {/* DASBOARD DE PRUEBA */}
                 <Route path="/dashprueba" element={<DefaultLayout />} />

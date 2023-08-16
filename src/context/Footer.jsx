@@ -5,23 +5,18 @@ import { logo, caihqr } from "../assets";
 export default function Footer() {
   return (
     <footer className="bg-grisclaro2">
-      <div className="w-full max-w-screen-xl p-4 py-6 mx-auto lg:py-8">
+      <div className="w-full max-w-screen-xl p-4 py-6 mx-auto lg:p-8">
         <div className="md:flex md:justify-between">
-          <div className="mb-6 md:mb-0">
-            <a className="flex items-center mr-20">
-              <img
-                src={caihqr}
-                className="h-40 mx-auto md:mx-0 rounded-md"
-                alt="Logo caih"
-              />
-              
+          <div className="mb-6 md:mb-0 md:flex md:items-center">
+            <a className="flex items-center mx-auto md:mx-0">
+              <img src={caihqr} className="h-40 rounded-md" alt="Logo caih" />
             </a>
           </div>
-          <div className="mb-6 md:mb-0">
-            <a className="flex items-center mr-20">
+          <div className="mb-6 md:mb-0 md:flex md:items-center">
+            <a className="flex items-center mx-auto md:mx-0">
               <img
                 src={logo}
-                className="mx-auto md:mx-0 h-60 "
+                className="h-60 mx-auto md:mx-0"
                 alt="Logo caih"
               />
             </a>

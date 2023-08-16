@@ -6,6 +6,7 @@ import {
   getAllUsers,
   updateStatusRequest,
   perfil,
+  updateUsuario,
 } from "../api/auth";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -89,6 +90,7 @@ export const AuthProvider = ({ children }) => {
       setUsuario(res);
       setIsAuthenticated(true);
     } catch (error) {
+      console.log(error);
       if (Array.isArray(error.response)) {
         error.response.data.message.forEach((error) => toast.error(error));
       } else {
@@ -177,6 +179,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUsuarioContext = async (id, usuario) => {
+    try {
+      const response = await updateUsuario(id, usuario);
+      return response.data;
+    } catch (error) {
+      console.error("Error updating user:", error);
+      throw error;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -191,6 +203,7 @@ export const AuthProvider = ({ children }) => {
         getUsersPublic,
         updateStatus,
         getUserProfile,
+        updateUsuarioContext,
       }}
     >
       {children}

@@ -85,10 +85,11 @@ function Login() {
                 </div>
               </div>
             </form>
-            <Toaster reverseOrder={true} />
+            
           </div>
         </div>
       </div>
+      <Toaster reverseOrder={true} />
       <Footer />
     </div>
   );

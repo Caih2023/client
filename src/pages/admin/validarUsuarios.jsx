@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { Toaster, toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 function compareStatus(a, b) {

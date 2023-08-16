@@ -28,7 +28,6 @@ function Login() {
         navigate("/mis-noticias");
       }
     }
-    console.log(isAuthenticated);
   }, [isAuthenticated]);
 
   return (

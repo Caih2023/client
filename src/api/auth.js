@@ -18,7 +18,7 @@ export const loginRequest = async (usuario) => {
     const response = await axios.post(`/login`, usuario);
     return response.data;
   } catch (error) {
-    // console.error(error.response.data); // Imprimir el arreglo de errores
+    console.error(error.response.data.message); // Imprimir el arreglo de errores
     throw error;
   }
 };

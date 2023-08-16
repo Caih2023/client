@@ -86,8 +86,8 @@ export const AuthProvider = ({ children }) => {
       setUsuario(res);
       setIsAuthenticated(true);
     } catch (error) {
-      if (Array.isArray(error.response.data)) {
-        error.response.data.forEach((error) => toast.error(error));
+      if (Array.isArray(error.response.data.message)) {
+        error.response.data.message.forEach((error) => toast.error(error));
       } else {
         toast.error(error.response.data.message);
       }

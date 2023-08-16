@@ -1,41 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecorridos } from "../../context/RecorridosContext";
-import { useNavigate, useParams } from "react-router-dom";
-import Dropzone from "react-dropzone";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import LinearProgress from "@mui/material/LinearProgress";
-
-function LinearProgressWithLabel(props) {
-  return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box sx={{ width: "100%", mr: 1 }}>
-        <LinearProgress variant="determinate" {...props} />
-      </Box>
-      <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value
-        )}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
 
 function RecorridosForm({ latLng }) {
   const { register, handleSubmit, setValue, reset } = useForm();
   const { createRecorrido, getRecorrido, updateRecorrido } = useRecorridos();
   const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const params = useParams();
 
-  const [showDropzone, setShowDropzone] = useState(true);
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const [progress, setProgress] = useState(0); // Agregar el estado para las imágenes cargadas
-  const [totalImages, setTotalImages] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [proyectoPProgress, setProyectoPProgress] = useState(null);
 
   useEffect(() => {
     async function loadRecorridos() {
@@ -45,7 +21,7 @@ function RecorridosForm({ latLng }) {
         setValue("informacionH", Recorrido.informacionH);
         setValue("coordenadas", Recorrido.coordenadas);
         setImages(Recorrido.galeria);
-        setValue("autorPointer"), Recorrido.autorPointer;
+        setValue("autorPointer", Recorrido.autorPointer);
       }
     }
     loadRecorridos();
@@ -74,54 +50,55 @@ function RecorridosForm({ latLng }) {
     }
   });
 
-  const handleDrop = async (files) => {
+  const handleProyectoPDrop = async (file) => {
     try {
       setLoading(true);
-
-      setTotalImages(files.length);
-
-      const uploadPromises = files.map(async (file) => {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("tags", "codeinfuse, medium, gist");
-        formData.append("upload_preset", "imagenes");
-        formData.append("api_key", "485221878133535");
-        formData.append("timestamp", Date.now() / 1000 / 0);
-
-        // Verificar si el archivo es una imagen
-        if (!file.type.startsWith("image/")) {
-          toast.error("Solo se permiten archivos de imagen");
+  
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("tags", "codeinfuse, medium, gist");
+      formData.append("upload_preset", "images"); // Cambiar a tu upload_preset para imágenes
+      formData.append("api_key", "485221878133535");
+      formData.append("timestamp", Date.now() / 1000 / 0);
+  
+      // Verificar si el archivo es una imagen
+      const validImageTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"]; // Ejemplo de tipos de imagen válidos
+      if (!validImageTypes.includes(file.type)) {
+        toast.error("Solo se permiten archivos de imagen (JPEG, PNG, jpg, webp)");
+        return;
+      }
+  
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        "POST",
+        "https://api.cloudinary.com/v1_1/dqjajqrru/image/upload",
+        true
+      );
+  
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percent = (event.loaded / event.total) * 100;
+          // Actualizar el progreso de carga aquí
+          setProyectoPProgress(percent);
         }
-
-        const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/dqjajqrru/image/upload",
-          formData,
-          {
-            headers: { "X-Requested-With": "XMLHttpRequest" },
-            // Resto del código de la solicitud...
-          }
-        );
-
-        const fileURL = response.data.secure_url;
+      };
+  
+      xhr.onload = () => {
+        const fileURL = JSON.parse(xhr.responseText);
+        setProyectoP(fileURL.url);
+        setProyectoPProgress(null); // Reiniciar el progreso después de cargar
         return fileURL;
-      });
-
-      const uploadedImages = await Promise.all(uploadPromises);
-      setUploadedImages(uploadedImages);
-      setShowDropzone(false);
+      };
+  
+      xhr.send(formData);
     } catch (error) {
-      console.error("Error uploading images:", error);
+      console.error("Error uploading image:", error);
     } finally {
       setLoading(false);
+      setProyectoPProgress(null);
     }
   };
-
-  useEffect(() => {
-    if (uploadedImages.length > 0) {
-      const newProgress = (uploadedImages.length / totalImages) * 100;
-      setProgress(newProgress);
-    }
-  }, [uploadedImages, totalImages]);
+  
 
   return (
     <>
@@ -181,41 +158,44 @@ function RecorridosForm({ latLng }) {
               </div>
             </div>
 
-            <div>
-              <label htmlFor="fotografias" className="block text-white">
-                Fotografias:
-              </label>
-              {loading ? (
-                <div>
-                  {uploadedImages.length > 0 ? (
-                    <LinearProgressWithLabel
-                      value={
-                        (uploadedImages.length / uploadedImages.length) * 100
+            <div className="flex justify-center lg:justify-start">
+              <div>
+                <label htmlFor="fotografias" className="label">
+                  Fotografias:
+                </label>
+                <input
+                  className="input input-alt text-center"
+                  placeholder="Selecciona imágenes"
+                  required
+                  type="file"
+                  multiple // Habilitar selección múltiple
+                  accept="image/*" // Aceptar solo imágenes
+                  onChange={(e) => {
+                    const files = e.target.files;
+                    if (files) {
+                      for (const file of files) {
+                        handleProyectoPDrop(file);
                       }
-                      className="w-full h-4"
-                    />
-                  ) : (
-                    <LinearProgressWithLabel value={progress} />
-                  )}
-                </div>
-              ) : showDropzone ? (
-                <div>
-                  <Dropzone className="dropzone" onDrop={handleDrop}>
-                    {({ getRootProps, getInputProps }) => (
-                      <section>
-                        <div {...getRootProps({ className: "dropzone" })}>
-                          <input {...getInputProps()} />
-                          <p>Arrastra imágenes aquí o haz clic para cargar</p>
-                        </div>
-                      </section>
-                    )}
-                  </Dropzone>
-                </div>
-              ) : (
-                <div>
-                  <LinearProgress variant="determinate" value={100} />
-                </div>
-              )}
+                    }
+                  }}
+                />
+                {proyectoPProgress !== null && (
+                  <div className="w-full bg-gray-200 rounded-full h-4 mb-4 dark:bg-gray-700">
+                    <div
+                      className="relative h-4 rounded-full"
+                      style={{
+                        width: `${proyectoPProgress}%`,
+                        transition: "width 0.3s ease-in-out",
+                      }}
+                    >
+                      <div className="bg-blue-600 absolute top-0 left-0 h-full w-full rounded-full dark:bg-blue-300"></div>
+                      <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-white font-semibold text-sm">
+                        {proyectoPProgress}%
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 

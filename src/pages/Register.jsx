@@ -417,7 +417,7 @@ function Register() {
               </div>
               <div className="flex justify-center lg:justify-start">
                 <div>
-                  <label htmlFor="trabajoActual" className="label">
+                  <label htmlFor="proyectoP" className="label">
                     Proyecto personal:
                   </label>
                   <input

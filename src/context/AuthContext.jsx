@@ -72,7 +72,6 @@ export const AuthProvider = ({ children }) => {
       const res = await registerRequest(usuario);
       setUsuario(res);
       // setIsAuthenticated(true);
-<<<<<<< HEAD
       toast.custom((t) => (
         <div
           className={`${
@@ -110,9 +109,6 @@ export const AuthProvider = ({ children }) => {
         </div>
       ));
       // toast.success("Solicitud enviada con exito.");
-=======
-      showRegistrationNotification(usuario);
->>>>>>> e128125ed29acad085baa88253a92e46a1f9b647
     } catch (error) {
       if (Array.isArray(error.response.data)) {
         error.response.data.forEach((error) => toast.error(error));

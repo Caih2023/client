@@ -19,7 +19,7 @@ function Navbar() {
 
   return (
     <nav className="bg-gris-960 border-gris-960 dark:bg-logo h-full">
-      <div className="flex flex-wrap items-center justify-between max-w-screen-xl pt-4 mx-auto">
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl pt-4 mx-auto mr-auto">
         <Link
           to="/"
           className={`flex items-center ${

@@ -1,5 +1,7 @@
 import React from "react";
 import { BsFacebook } from "react-icons/bs";
+import { logo } from "../assets/caih3.jpg";
+import { qr } from "../assets/caihqr.png";
 
 export default function Footer() {
   return (
@@ -8,17 +10,13 @@ export default function Footer() {
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <a className="flex items-center mr-20">
-              <img
-                src="src/assets/caihqr.png"
-                className="h-40 mx-auto md:mx-0"
-                alt="Logo caih"
-              />
+              <img src={qr} className="h-40 mx-auto md:mx-0" alt="Logo caih" />
             </a>
           </div>
           <div className="mb-6 md:mb-0">
             <a className="flex items-center mr-20">
               <img
-                src="src/assets/caih3.jpg"
+                src={logo}
                 className="mx-auto md:mx-0 h-60 "
                 alt="Logo caih"
               />

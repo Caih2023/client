@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 // import Portada from "./extraerPortada";
 import DescargarLibro from "./descargarLibro";
 import { useBibliotecas } from "../../context/bibliotecaContext";
+import Navbar from '../../components/Navbar'
+import Footer from '../../context/Footer'
 
 const Biblioteca = () => {
   const {
@@ -17,6 +19,8 @@ const Biblioteca = () => {
   }, []);
 
   return (
+    <div>
+      <Navbar/>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
       {Bibliotecas.map((libro, index) => (
         <div
@@ -43,6 +47,8 @@ const Biblioteca = () => {
           </div>
         </div>
       ))}
+    </div>
+    <Footer/>
     </div>
   );
 };

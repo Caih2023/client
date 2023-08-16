@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useBibliotecas } from "../../context/bibliotecaContext";
+import Navbar from "../../components/Navbar";
+import Footer from "../../context/Footer";
 
 const BibliotecaForm = () => {
   const { register, handleSubmit } = useForm();
@@ -126,7 +128,8 @@ const BibliotecaForm = () => {
 
   return (
     <div>
-       <h1 className="text-5xl font-bold text-center">Subir libro</h1>
+      <Navbar />
+      <h1 className="text-5xl font-bold text-center">Subir libro</h1>
       <div className="flex justify-center ">
         <form
           onSubmit={onSubmitBiblioteca}
@@ -248,6 +251,7 @@ const BibliotecaForm = () => {
           </button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -3,10 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import caihf from "../../../assets/logo2.png";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import { Link } from "react-router-dom";
-import {
-  AiFillDashboard,
-  AiOutlineTeam,
-} from "react-icons/ai";
+import { AiFillDashboard, AiOutlineTeam } from "react-icons/ai";
 import { LuUserCheck } from "react-icons/lu";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -65,12 +62,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <a className="flex mt-6 ml-2 md:mr-24">
+        <Link to={"/"} className="flex mt-6 ml-2 md:mr-24">
           <img src={caihf} className="h-10 mr-3" alt="Caih Logo" />
           <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">
             CAIH
           </span>
-        </a>
+        </Link>
 
         <button
           ref={trigger}
@@ -98,7 +95,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
-          <div className="bg-white h-[0.1rem] w-full mt-[0.9rem]"></div>
+        <div className="bg-white h-[0.1rem] w-full mt-[0.9rem]"></div>
         <nav className="mt-5 py-4 px-4 lg:mt-6 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>

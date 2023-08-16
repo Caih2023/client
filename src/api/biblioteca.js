@@ -1,37 +1,35 @@
 import axios from "./axios";
 
-export const getrecorridosRequest = () => axios.get("/recorridos");
+export const getbibliotecasRequest = () => axios.get("/biblioteca");
 
-export const getrecorridoRequest = (id) => axios.get(`/recorridos/${id}`);
+export const getbibliotecaRequest = (id) => axios.get(`/biblioteca/${id}`);
 
-export const createrecorridosRequest = async (recorrido) => {
+export const createbibliotecasRequest = async (biblioteca) => {
   try {
-    const response = await axios.post("/recorrido", recorrido);
+    const response = await axios.post("/biblioteca", biblioteca);
     return response.data; // Puedes devolver los datos si es necesario
   } catch (error) {
-    console.error("Error en createrecorridosRequest:", error);
+    console.error("Error en createbibliotecasRequest:", error);
     throw error; // Relanzar el error para que el componente pueda manejarlo
   }
 };
 
-export const updaterecorridosRequest = async (id, recorrido) => {
+export const updatebibliotecasRequest = async (id, biblioteca) => {
   try {
-    const response = await axios.put(`/recorridos/${id}`, recorrido);
+    const response = await axios.put(`/biblioteca/${id}`, biblioteca);
     return response.data; // Puedes devolver los datos si es necesario
   } catch (error) {
-    console.error("Error en updaterecorridosRequest:", error);
+    console.error("Error en updatebibliotecasRequest:", error);
     throw error; // Relanzar el error para que el componente pueda manejarlo
   }
 };
 
-export const deleterecorridosRequest = async (id) => {
+export const deletebibliotecasRequest = async (id) => {
   try {
-    const response = await axios.delete(`/recorridos/${id}`);
+    const response = await axios.delete(`/bibliotecas/${id}`);
     return response.data; // Puedes devolver los datos si es necesario
   } catch (error) {
-    console.error("Error en deleterecorridosRequest:", error);
+    console.error("Error en deletebibliotecasRequest:", error);
     throw error; // Relanzar el error para que el componente pueda manejarlo
   }
 };
-
-export const getrecorridosFull = () => axios.get("recorridos-publicas");

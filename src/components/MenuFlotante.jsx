@@ -86,6 +86,14 @@ export default function MenuFlotante({ logout }) {
           >
             Perfil
           </Link> */}
+          <Link
+            to="/bibliotecaForm"
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 
+              dark:hover:text-white"
+            role="menuitem"
+          >
+            Subir libro
+          </Link>
           <div className="border-t border-gray-100"></div>
           <Link
             to="/"

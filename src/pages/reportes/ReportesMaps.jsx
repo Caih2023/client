@@ -94,6 +94,8 @@ export default function Recorridos() {
           // Al hacer clic en un marcador, establece el reporte seleccionado
           marker.on("click", () => {
             setSelectedReporte(markerData);
+            // Asignar el marcador al objeto markerData
+            markerData._leaflet_marker = marker;
           });
         });
       } catch (error) {
@@ -107,14 +109,10 @@ export default function Recorridos() {
   useEffect(() => {
     // Al seleccionar un reporte, abre el popup correspondiente
     if (selectedReporte && map) {
-      reportes.forEach((markerData) => {
-        if (markerData._id === selectedReporte._id) {
-          const marker = markerData._leaflet_marker;
-          if (marker) {
-            marker.openPopup();
-          }
-        }
-      });
+      const marker = selectedReporte._leaflet_marker;
+      if (marker) {
+        marker.openPopup();
+      }
     }
   }, [selectedReporte]);
 
@@ -129,7 +127,7 @@ export default function Recorridos() {
         {reportes.map((reporte) => (
           <a
             key={reporte._id}
-            className={`rounded-sm grid grid-cols-2 bg-white p-3 m-1 gap-4  hover:shadow-lg transition delay-150 duration-300 ease-in-out hover:scale-105 transform ${
+            className={`rounded-sm grid grid-cols-2 bg-white p-3 m-1  hover:shadow-lg transition delay-150 duration-300 ease-in-out hover:scale-105 transform ${
               selectedReporte && selectedReporte._id === reporte._id
                 ? "bg-blue-100"
                 : ""

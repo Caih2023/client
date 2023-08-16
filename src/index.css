@@ -547,7 +547,7 @@ body {
 }
 
 .card-noticias {
-  @apply flex flex-col lg:flex-row bg-gray-900 bg-opacity-50 shadow-xl backdrop-blur-md p-8 rounded-xl max-w-lg my-10 mx-5;
+  @apply flex items-center bg-gray-900 bg-opacity-50 shadow-xl backdrop-blur-md p-8 rounded-xl max-w-lg my-10 mx-5;
 }
 
 .responsive2 {

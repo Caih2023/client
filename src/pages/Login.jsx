@@ -13,7 +13,7 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  console.log("hola");
   const { signin, isAuthenticated, usuario } = useAuth();
   const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
@@ -85,7 +85,6 @@ function Login() {
                 </div>
               </div>
             </form>
-            
           </div>
         </div>
       </div>

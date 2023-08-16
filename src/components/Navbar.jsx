@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Menu from "./MenuFlotante";
+import logo from '../assets/logo2.png'
 
 function Navbar() {
   const { isAuthenticated, logout, usuario } = useAuth();
@@ -28,7 +29,7 @@ function Navbar() {
           onClick={() => seleccionarClicks("inicio")}
         >
           <img
-            src="src/assets/logo2.png"
+            src={logo}
             className="h-12 mr-3"
             alt="Flowbite Logo"
           />

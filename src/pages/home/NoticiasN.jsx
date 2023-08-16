@@ -75,7 +75,7 @@ function NoticiasN() {
     );
 
     // Limitar el número de noticias a 5
-    const primerasNoticias = noticiasOrdenadas.slice(0, 3);
+    const primerasNoticias = noticiasOrdenadas.slice(0, 4);
 
     const noticiasActivas = primerasNoticias.filter(
       (noticia) => noticia.estado === "Activo"

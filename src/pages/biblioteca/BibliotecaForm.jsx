@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { useBibliotecas } from "../../context/bibliotecaContext";
 import Navbar from "../../components/Navbar";
 import Footer from "../../context/Footer";

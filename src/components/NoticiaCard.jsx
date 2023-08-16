@@ -66,7 +66,11 @@ function NoticiaCard({ noticia }) {
   return (
     <div className="card1">
       <div className="w-full md:w-2/5 p-4 flex items-center">
-        {/* <Imagenes galeria={noticia.galeria} tamañoImagen={220} /> */}
+        <img
+          className="w-full h-full object-cover rounded-2xl"
+          src={noticia.foto[0]}
+          alt={noticia.titulo}
+        />
       </div>
       <div className="w-full md:w-3/5 flex flex-col justify-between p-4">
         <>

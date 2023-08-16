@@ -11,14 +11,14 @@ function RecorridosForm({ latLng }) {
   const params = useParams();
 
   const [loading, setLoading] = useState(false);
-  const [proyectoPProgress, setProyectoPProgress] = useState(null);
+  const [recorridosFrom, setRecorridosFrom] = useState(null);
 
   useEffect(() => {
     async function loadRecorridos() {
       if (params.id) {
         const Recorrido = await getRecorrido(params.id);
         setValue("tituloPoint", Recorrido.informacionH);
-        setValue("informacionH", Recorrido.informacionH);
+        setValue("informacionH", Recorrido.informacionH);o
         setValue("coordenadas", Recorrido.coordenadas);
         setImages(Recorrido.galeria);
         setValue("autorPointer", Recorrido.autorPointer);
@@ -79,14 +79,14 @@ function RecorridosForm({ latLng }) {
         if (event.lengthComputable) {
           const percent = (event.loaded / event.total) * 100;
           // Actualizar el progreso de carga aquí
-          setProyectoPProgress(percent);
+          setRecorridosFrom(percent);
         }
       };
   
       xhr.onload = () => {
         const fileURL = JSON.parse(xhr.responseText);
         setProyectoP(fileURL.url);
-        setProyectoPProgress(null); // Reiniciar el progreso después de cargar
+        setRecorridosFrom(null); // Reiniciar el progreso después de cargar
         return fileURL;
       };
   
@@ -95,7 +95,7 @@ function RecorridosForm({ latLng }) {
       console.error("Error uploading image:", error);
     } finally {
       setLoading(false);
-      setProyectoPProgress(null);
+      setRecorridosFrom(null);
     }
   };
   
@@ -179,18 +179,18 @@ function RecorridosForm({ latLng }) {
                     }
                   }}
                 />
-                {proyectoPProgress !== null && (
+                {recorridosFrom !== null && (
                   <div className="w-full bg-gray-200 rounded-full h-4 mb-4 dark:bg-gray-700">
                     <div
                       className="relative h-4 rounded-full"
                       style={{
-                        width: `${proyectoPProgress}%`,
+                        width: `${recorridosFrom}%`,
                         transition: "width 0.3s ease-in-out",
                       }}
                     >
                       <div className="bg-blue-600 absolute top-0 left-0 h-full w-full rounded-full dark:bg-blue-300"></div>
                       <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-white font-semibold text-sm">
-                        {proyectoPProgress}%
+                        {recorridosFrom}%
                       </div>
                     </div>
                   </div>

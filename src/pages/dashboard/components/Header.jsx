@@ -43,7 +43,7 @@ const Header = (props) => {
 
         <div className="flex items-center text-black gap-3 2xsm:gap-7 ml-auto">
           {/* <!-- User Area --> */}
-          <DropdownUser />
+          {/* <DropdownUser /> */}
           {/* <!-- User Area --> */}
         </div>
       </div>

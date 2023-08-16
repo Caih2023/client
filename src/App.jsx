@@ -16,6 +16,7 @@ import VerMasRecorridos from "./pages/recorridos/VerMasRecorridos";
 import AcercaDe from "./pages/acerca/AcercaDe";
 import NoticiasMasInf from "./pages/noticias/NoticiasMasInf";
 import { AuthProvider } from "./context/AuthContext";
+import { BibliotecasProvider } from "./context/bibliotecaContext";
 import ProtectedRoute from "./ProtectedRoute";
 import { NoticiasProvider } from "./context/NoticiasContext";
 // import Navbar from "./components/Navbar";
@@ -28,87 +29,91 @@ import Prueba from "./pages/recorridos/pruebademapa";
 import DefaultLayout from "./pages/dashboard/layout/DefaultLayout";
 import ValidarUsuarios from "./pages/admin/validarUsuarios";
 import UsuarioMasInf from "./pages/admin/UsuarioMasInf";
+import Biblioteca from "./pages/biblioteca/biblioteca";
+import BibliotecaForm from "./pages/biblioteca/BibliotecaForm";
 
 function App() {
-  
   return (
-    <AuthProvider>
-      <NoticiasProvider>
-        <ReportesProvider>
-          <BrowserRouter>
-            <RecorridosProvider>
-              <Routes>
-                <Route path="/dashboard/*" element={<Dashboard />}>
-                  {/* Rutas anidadas bajo Dashboard */}
+    <BibliotecasProvider>
+      <AuthProvider>
+        <NoticiasProvider>
+          <ReportesProvider>
+            <BrowserRouter>
+              <RecorridosProvider>
+                <Routes>
+                  <Route path="/dashboard/*" element={<Dashboard />}>
+                    {/* Rutas anidadas bajo Dashboard */}
+                    <Route
+                      path="agregar-recorrido"
+                      element={<MapsRecorridos />}
+                    />
+                    <Route
+                      path="reportes-ciudadanos"
+                      element={<ReportesMaps />}
+                    />
+                    <Route
+                      path="validacionusuarios"
+                      element={<ValidarUsuarios />}
+                    />
+                    <Route path="usuario/:id" element={<UsuarioMasInf />} />
+                  </Route>
                   <Route
-                    path="agregar-recorrido"
-                    element={<MapsRecorridos />}
+                    path="/dashboard"
+                    element={<Navigate to="/dashboard/agregar-recorrido" />}
                   />
                   <Route
-                    path="reportes-ciudadanos"
-                    element={<ReportesMaps />}
+                    path="/dashboard"
+                    element={<Navigate to="/dashboard/validacionusuarios" />}
                   />
                   <Route
-                    path="validacionusuarios"
-                    element={<ValidarUsuarios />}
+                    path="/dashboard"
+                    element={<Navigate to="/dashboard/reportes-ciudadanos" />}
                   />
-                  <Route path="usuario/:id" element={<UsuarioMasInf />} />
-                </Route>
-                <Route
-                  path="/dashboard"
-                  element={<Navigate to="/dashboard/agregar-recorrido" />}
-                />
-                <Route
-                  path="/dashboard"
-                  element={<Navigate to="/dashboard/validacionusuarios" />}
-                />
-                <Route
-                  path="/dashboard"
-                  element={<Navigate to="/dashboard/reportes-ciudadanos" />}
-                />
-                <Route
-                  path="/dashboard"
-                  element={<Navigate to="/dashboard/usuario/:id" />}
-                />
-
-
-                {/* DASBOARD DE PRUEBA */}
-                <Route path="/dashprueba" element={<DefaultLayout />} />
-
-                <Route path="/" element={<Inicio />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/noticias" element={<NoticiasPublicas />} />
-                <Route
-                  path="/noticias-mas-inf/:id"
-                  element={<NoticiasMasInf />}
-                />
-                <Route path="/reporte" element={<MapsReportes />} />
-                <Route path="/recorridos" element={<Recorridos />} />
-                <Route
-                  path="/ver-mas-recorridos/:id"
-                  element={<VerMasRecorridos />}
-                />
-                <Route path="/acerca" element={<AcercaDe />} />
-                <Route path="/prueba" element={<Prueba />} />
-
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/mis-noticias" element={<Noticia />} />
-                  <Route path="/agregar-noticia" element={<NoticiasForm />} />
-                  <Route path="/mi-noticia/:id" element={<NoticiasForm />} />
-                  <Route path="/perfil" element={<Profile />} />
                   <Route
-                    path="/reportes-ciudadanos"
-                    element={<ReportesMaps />}
+                    path="/dashboard"
+                    element={<Navigate to="/dashboard/usuario/:id" />}
                   />
-                </Route>
-                <Route path="*" element={<Error404 />} />
-              </Routes>
-            </RecorridosProvider>
-          </BrowserRouter>
-        </ReportesProvider>
-      </NoticiasProvider>
-    </AuthProvider>
+
+                  {/* DASBOARD DE PRUEBA */}
+                  <Route path="/dashprueba" element={<DefaultLayout />} />
+
+                  <Route path="/" element={<Inicio />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/noticias" element={<NoticiasPublicas />} />
+                  <Route
+                    path="/noticias-mas-inf/:id"
+                    element={<NoticiasMasInf />}
+                  />
+                  <Route path="/biblioteca-virtual" element={<Biblioteca />} />
+                  <Route path="/bibliotecaform" element={<BibliotecaForm />} />
+                  <Route path="/reporte" element={<MapsReportes />} />
+                  <Route path="/recorridos" element={<Recorridos />} />
+                  <Route
+                    path="/ver-mas-recorridos/:id"
+                    element={<VerMasRecorridos />}
+                  />
+                  <Route path="/acerca" element={<AcercaDe />} />
+                  <Route path="/prueba" element={<Prueba />} />
+
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="/mis-noticias" element={<Noticia />} />
+                    <Route path="/agregar-noticia" element={<NoticiasForm />} />
+                    <Route path="/mi-noticia/:id" element={<NoticiasForm />} />
+                    <Route path="/perfil" element={<Profile />} />
+                    <Route
+                      path="/reportes-ciudadanos"
+                      element={<ReportesMaps />}
+                    />
+                  </Route>
+                  <Route path="*" element={<Error404 />} />
+                </Routes>
+              </RecorridosProvider>
+            </BrowserRouter>
+          </ReportesProvider>
+        </NoticiasProvider>
+      </AuthProvider>
+    </BibliotecasProvider>
   );
 }
 export default App;

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 function NoticiasCardPublic({ noticia }) {
   const [textLongitude, setTextLongitude] = useState(getTextLongitude);
-
   function getTextLongitude() {
     const windowWidth = window.innerWidth;
     if (windowWidth < 370) {

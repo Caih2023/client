@@ -28,7 +28,6 @@ function Login() {
         navigate("/mis-noticias");
       }
     }
-    console.log(isAuthenticated);
   }, [isAuthenticated]);
 
   return (
@@ -86,10 +85,11 @@ function Login() {
                 </div>
               </div>
             </form>
-            <Toaster reverseOrder={true} />
+            
           </div>
         </div>
       </div>
+      <Toaster reverseOrder={true} />
       <Footer />
     </div>
   );

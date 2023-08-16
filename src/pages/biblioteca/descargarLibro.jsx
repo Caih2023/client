@@ -5,6 +5,7 @@ const DescargarLibro = ({ url, nombreArchivo }) => {
     const link = document.createElement('a');
     link.href = url;
     link.download = nombreArchivo;
+    link.target = '_blank'; // Agregar el atributo target para abrir en una nueva ventana
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -64,3 +64,6 @@ export const perfil = async (id) => {
     throw error;
   }
 };
+
+export const updateUsuario = (id, usuario) =>
+  axios.put(`/usuarioupdate/${id}`, usuario);

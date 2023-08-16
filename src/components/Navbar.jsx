@@ -18,8 +18,8 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-gris-960 border-gris-960 dark:bg-logo">
-      <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
+    <nav className="bg-gris-960 border-gris-960 dark:bg-logo h-full">
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl pt-4 mx-auto">
         <Link
           to="/"
           className={`flex items-center ${
@@ -70,7 +70,7 @@ function Navbar() {
 
           <button
             type="button"
-            className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
             aria-controls="mega-menu"
             aria-expanded={menuOpen}
             onClick={toggleMenu}

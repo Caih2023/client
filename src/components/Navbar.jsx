@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Menu from "./MenuFlotante";
-import logo from '../assets/logo2.png'
+import logo from "../assets/logo2.png";
 
 function Navbar() {
   const { isAuthenticated, logout, usuario } = useAuth();
@@ -28,11 +28,7 @@ function Navbar() {
           aria-current="page"
           onClick={() => seleccionarClicks("inicio")}
         >
-          <img
-            src={logo}
-            className="h-12 mr-3"
-            alt="Flowbite Logo"
-          />
+          <img src={logo} className="h-12 mr-3" alt="Flowbite Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
             CAIH
           </span>
@@ -49,11 +45,9 @@ function Navbar() {
               <Link
                 to="/login"
                 className={`btn bg-gray-800 hover:text-black hover:bg-gray-300
-               ${
-                 seleccionarOpcion === "login"
-                   ? "text-blue-600"
-                   : "text-gray-100"
-               } `}
+             ${
+               seleccionarOpcion === "login" ? "text-blue-600" : "text-gray-100"
+             } `}
                 aria-current="page"
                 onClick={() => seleccionarClicks("login")}
               >

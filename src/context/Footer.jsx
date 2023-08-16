@@ -1,7 +1,7 @@
 import React from "react";
 import { BsFacebook } from "react-icons/bs";
-import { logo } from "../assets/caih3.jpg";
-import { qr } from "../assets/caihqr.png";
+import logo from "../assets/caih3.jpg";
+import qr from "../assets/caihqr.png";
 
 export default function Footer() {
   return (

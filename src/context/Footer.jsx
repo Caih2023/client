@@ -1,16 +1,20 @@
 import React from "react";
 import { BsFacebook } from "react-icons/bs";
-import logo from "../assets/caih3.jpg";
-import qr from "../assets/caihqr.png";
+import { logo, caihqr } from "../assets";
 
 export default function Footer() {
   return (
-    <footer className="dark:bg-grisclaro2">
+    <footer className="bg-grisclaro2">
       <div className="w-full max-w-screen-xl p-4 py-6 mx-auto lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <a className="flex items-center mr-20">
-              <img src={qr} className="h-40 mx-auto md:mx-0" alt="Logo caih" />
+              <img
+                src={caihqr}
+                className="h-40 mx-auto md:mx-0 rounded-md"
+                alt="Logo caih"
+              />
+              
             </a>
           </div>
           <div className="mb-6 md:mb-0">
@@ -31,6 +35,7 @@ export default function Footer() {
                 <li className="mb-4">
                   <a
                     href="https://web.facebook.com/people/CAIH/100043352531874/"
+                    target="_blank"
                     className="hover:underline "
                   >
                     Facebook
@@ -65,6 +70,7 @@ export default function Footer() {
           <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
             <a
               href="https://web.facebook.com/people/CAIH/100043352531874/"
+              target="_blank"
               className="text-gray-500 dark:hover:text-white hover:animate-bounce text-2xl"
             >
               <BsFacebook />

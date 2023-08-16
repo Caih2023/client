@@ -98,7 +98,7 @@ function NoticiasForm() {
         <div className="card-noticias">
           <form className="mx-8 m:mr-0 space-y-4 " onSubmit={onSubmit}>
             <h1 className="text-3xl text-center font-bold uppercase">
-              Noticia
+              Crear noticia
             </h1>
             <p className="text-gray-300 text-center md:text-left">
               Los datos ingresados en este formulario son para crear una noticia

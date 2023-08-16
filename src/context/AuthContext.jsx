@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
                   Hola {usuario.nombre}
                 </p>
                 <p className="mt-1 text-sm text-gray-500">
-                  Tu solicitud fue enviada, en un par de dias reciviras un
+                  Tu solicitud fue enviada, en un par de dias recibiras un
                   correo electronico con tus datos para poder iniciar sesion.
                 </p>
               </div>

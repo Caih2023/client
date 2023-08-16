@@ -5,6 +5,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import LinearProgress from "@mui/material/LinearProgress";
+
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "100%", mr: 1 }}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 function RecorridosForm({ latLng }) {
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -13,6 +31,11 @@ function RecorridosForm({ latLng }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
+
+  const [showDropzone, setShowDropzone] = useState(true);
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [progress, setProgress] = useState(0); // Agregar el estado para las imágenes cargadas
+  const [totalImages, setTotalImages] = useState(0);
 
   useEffect(() => {
     async function loadRecorridos() {
@@ -55,6 +78,8 @@ function RecorridosForm({ latLng }) {
     try {
       setLoading(true);
 
+      setTotalImages(files.length);
+
       const uploadPromises = files.map(async (file) => {
         const formData = new FormData();
         formData.append("file", file);
@@ -73,6 +98,7 @@ function RecorridosForm({ latLng }) {
           formData,
           {
             headers: { "X-Requested-With": "XMLHttpRequest" },
+            // Resto del código de la solicitud...
           }
         );
 
@@ -81,7 +107,8 @@ function RecorridosForm({ latLng }) {
       });
 
       const uploadedImages = await Promise.all(uploadPromises);
-      setImages((prevImages) => [...prevImages, ...uploadedImages]);
+      setUploadedImages(uploadedImages);
+      setShowDropzone(false);
     } catch (error) {
       console.error("Error uploading images:", error);
     } finally {
@@ -89,13 +116,12 @@ function RecorridosForm({ latLng }) {
     }
   };
 
-  const handleDeleteImage = (index) => {
-    setImages((prevImages) => {
-      const updatedImages = [...prevImages];
-      updatedImages.splice(index, 1);
-      return updatedImages;
-    });
-  };
+  useEffect(() => {
+    if (uploadedImages.length > 0) {
+      const newProgress = (uploadedImages.length / totalImages) * 100;
+      setProgress(newProgress);
+    }
+  }, [uploadedImages, totalImages]);
 
   return (
     <>
@@ -155,47 +181,41 @@ function RecorridosForm({ latLng }) {
               </div>
             </div>
 
-            <div className="flex justify-center lg:justify-start mb-1">
-              <div>
-                <label htmlFor="fotografia" className="label">
-                  Fotografías:
-                </label>
-                <Dropzone className="dropzone" onDrop={handleDrop}>
-                  {({ getRootProps, getInputProps }) => (
-                    <section>
-                      <div {...getRootProps({ className: "dropzone" })}>
-                        <input {...getInputProps()} />
-                        <p>Cargar imágenes</p>
-                      </div>
-                    </section>
+            <div>
+              <label htmlFor="fotografias" className="block text-white">
+                Fotografias:
+              </label>
+              {loading ? (
+                <div>
+                  {uploadedImages.length > 0 ? (
+                    <LinearProgressWithLabel
+                      value={
+                        (uploadedImages.length / uploadedImages.length) * 100
+                      }
+                      className="w-full h-4"
+                    />
+                  ) : (
+                    <LinearProgressWithLabel value={progress} />
                   )}
-                </Dropzone>
-                {loading ? (
-                  <h2>Cargando imágenes...</h2>
-                ) : images.length > 0 ? (
-                  <div className="grid grid-cols-3 ml-3">
-                    {images.map((img, index) => (
-                      <div key={index}>
-                        <img
-                          src={img}
-                          alt={`Imagen ${index + 1}`}
-                          style={{
-                            width: "125px",
-                            height: "70px",
-                            backgroundSize: "cover",
-                            paddingRight: "15px",
-                          }}
-                        />
-                        <button onClick={() => handleDeleteImage(index)}>
-                          Eliminar imagen
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <h2>cargar imagenes</h2>
-                )}
-              </div>
+                </div>
+              ) : showDropzone ? (
+                <div>
+                  <Dropzone className="dropzone" onDrop={handleDrop}>
+                    {({ getRootProps, getInputProps }) => (
+                      <section>
+                        <div {...getRootProps({ className: "dropzone" })}>
+                          <input {...getInputProps()} />
+                          <p>Arrastra imágenes aquí o haz clic para cargar</p>
+                        </div>
+                      </section>
+                    )}
+                  </Dropzone>
+                </div>
+              ) : (
+                <div>
+                  <LinearProgress variant="determinate" value={100} />
+                </div>
+              )}
             </div>
           </div>
 

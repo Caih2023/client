@@ -8,10 +8,9 @@ import axios from "axios";
 import Dropzone from "react-dropzone";
 import { FaFolderOpen } from "react-icons/fa";
 import { Toaster, toast } from "react-hot-toast";
-import { useHistory } from "react-router-dom";
 
 function Register() {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, reset } = useForm();
   const { signup, getUsersPublic, usuarios, errors } = useAuth();
   const [images, setImages] = useState([]);
   const [tituloMEstudios, setTituloMEstudios] = useState([]);
@@ -23,7 +22,6 @@ function Register() {
   const [tituloMEstudiosProgress, setTituloMEstudiosProgress] = useState();
   const [proyectoPProgress, setproyectoPProgress] = useState();
   const [cvProgress, setcvProgress] = useState();
-  const history = useHistory();
 
   useEffect(() => {
     getUsersPublic();
@@ -61,7 +59,14 @@ function Register() {
 
     try {
       signup(registroData);
-      history.push("/"); // Redirige al usuario a la pantalla de inicio
+      reset();
+      setImages([]); // Limpia las imágenes
+      setCv(""); // Limpia la URL del CV
+      setProyectoP(""); // Limpia la URL del proyecto personal
+      setTituloMEstudios(""); // Limpia la URL del título de estudios
+      setTituloMEstudiosProgress(0); // Reinicia el progreso de título de estudios
+      setproyectoPProgress(0); // Reinicia el progreso de proyecto personal
+      setcvProgress(0); // Reinicia el progreso de CV
     } catch (error) {
       console.log(error);
     }

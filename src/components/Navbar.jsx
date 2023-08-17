@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Menu from "./MenuFlotante";
-import logo from '../assets/logo2.png'
+import logo from "../assets/logo2.png";
 
 function Navbar() {
   const { isAuthenticated, logout, usuario } = useAuth();
@@ -18,8 +18,8 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-gris-960 border-gris-960 dark:bg-logo">
-      <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
+    <nav className="bg-gris-960 border-gris-960 dark:bg-logo h-full">
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 m-auto">
         <Link
           to="/"
           className={`flex items-center ${
@@ -30,7 +30,7 @@ function Navbar() {
         >
           <img
             src={logo}
-            className="h-12 mr-3"
+            className="h-12 mr-3 hidden md:block"
             alt="Flowbite Logo"
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
@@ -49,11 +49,9 @@ function Navbar() {
               <Link
                 to="/login"
                 className={`btn bg-gray-800 hover:text-black hover:bg-gray-300
-               ${
-                 seleccionarOpcion === "login"
-                   ? "text-blue-600"
-                   : "text-gray-100"
-               } `}
+             ${
+               seleccionarOpcion === "login" ? "text-blue-600" : "text-gray-100"
+             } `}
                 aria-current="page"
                 onClick={() => seleccionarClicks("login")}
               >
@@ -76,7 +74,7 @@ function Navbar() {
 
           <button
             type="button"
-            className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
             aria-controls="mega-menu"
             aria-expanded={menuOpen}
             onClick={toggleMenu}

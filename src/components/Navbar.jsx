@@ -19,7 +19,7 @@ function Navbar() {
 
   return (
     <nav className="bg-gris-960 border-gris-960 dark:bg-logo h-full">
-      <div className="flex flex-wrap items-center justify-between max-w-screen-xl pt-4 m-auto">
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 m-auto">
         <Link
           to="/"
           className={`flex items-center ${
@@ -28,7 +28,6 @@ function Navbar() {
           aria-current="page"
           onClick={() => seleccionarClicks("inicio")}
         >
-          {/* Agregar la clase hidden en dispositivos pequeños */}
           <img
             src={logo}
             className="h-12 mr-3 hidden md:block"

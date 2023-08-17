@@ -16,7 +16,7 @@ export const registerRequest = async (usuario) => {
 export const loginRequest = async (usuario) => {
   try {
     const response = await axios.post(`/login`, usuario);
-    return response.data;
+    return response;
   } catch (error) {
     // console.error(error.response.data); // Imprimir el arreglo de errores
     throw error;
@@ -42,6 +42,7 @@ export const getAllUsers = async () => {
     const res = await axios.get("/getallusers");
     return res;
   } catch (error) {
+  console.log(error);
     throw error;
   }
 };

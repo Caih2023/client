@@ -7,9 +7,11 @@ import Imagenes from "./ImgInicio";
 
 function NoticiasN() {
   const urlocal = `http://localhost:3000/api/noticias`;
-  const url = "http://localhost:4000/api/noticias-publicas";
+  const url = "https://backend-caih.vercel.app/api/noticias-publicas";
 
   const { data, loading, error } = useFetch(url);
+  console.log(data);
+  console.log(error);
 
   const [textLongitude, setTextLongitude] = useState(getTextLongitude);
 

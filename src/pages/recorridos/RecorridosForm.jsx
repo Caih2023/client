@@ -85,10 +85,12 @@ function RecorridosForm({ latLng }) {
   
       xhr.onload = () => {
         const fileURL = JSON.parse(xhr.responseText);
-        setProyectoP(fileURL.url);
-        setRecorridosFrom(null); // Reiniciar el progreso después de cargar
+        setRecorridosFrom(fileURL.url);
+        // No reinicies el estado aquí para mantener la barra de progreso visible
+        // setRecorridosFrom(null); // Comenta o elimina esta línea
         return fileURL;
       };
+      
   
       xhr.send(formData);
     } catch (error) {
@@ -190,7 +192,7 @@ function RecorridosForm({ latLng }) {
                     >
                       <div className="bg-blue-600 absolute top-0 left-0 h-full w-full rounded-full dark:bg-blue-300"></div>
                       <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-white font-semibold text-sm">
-                        {recorridosFrom}%
+                        {recorridosFrom}100%
                       </div>
                     </div>
                   </div>

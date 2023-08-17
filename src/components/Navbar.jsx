@@ -28,7 +28,12 @@ function Navbar() {
           aria-current="page"
           onClick={() => seleccionarClicks("inicio")}
         >
-          <img src={logo} className="h-12 mr-3" alt="Flowbite Logo" />
+          {/* Agregar la clase hidden en dispositivos pequeños */}
+          <img
+            src={logo}
+            className="h-12 mr-3 hidden md:block"
+            alt="Flowbite Logo"
+          />
           <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
             CAIH
           </span>

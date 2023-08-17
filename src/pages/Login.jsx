@@ -17,16 +17,17 @@ function Login() {
   const { signin, isAuthenticated, usuario } = useAuth();
   const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
+    console.log(data);
     signin(data);
   });
-  
+
   useEffect(() => {
     if (isAuthenticated) {
-      if (usuario.roles[0] === "admin" && isAuthenticated) {
-        navigate("/dashboard");
-      } else {
-        navigate("/mis-noticias");
-      }
+      // if (usuario.roles[0] === "admin" && isAuthenticated) {
+      //   navigate("/dashboard");
+      // } else {
+      navigate("/mis-noticias");
+      // }
     }
   }, [isAuthenticated]);
 

@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (usuario) => {
     try {
       const res = await registerRequest(usuario);
-      setUsuario(res);
+      // setUsuario(res);
       // setIsAuthenticated(true);
       showRegistrationNotification(usuario);
     } catch (error) {

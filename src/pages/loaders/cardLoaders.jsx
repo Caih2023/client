@@ -1,8 +1,6 @@
-import React from "react";
-
-export default function cardLoaders() {
+function cardLoaders() {
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="flex justify-center">
       <div className="loader m-8">
         <div className="wrapper">
           <div className="circle"></div>
@@ -33,3 +31,5 @@ export default function cardLoaders() {
     </div>
   );
 }
+
+export default cardLoaders;

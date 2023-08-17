@@ -1,12 +1,11 @@
 import { useFetch } from "../useFetch";
 import { useState, useEffect } from "react";
-import Loading from "../loaders/Loading";
+import { LoadingCard, Noticias0 } from "../loaders";
 import { Error404 } from "../errors";
 import { Link } from "react-router-dom";
 import Imagenes from "./ImgInicio";
 
 function NoticiasN() {
-  
   const url = "https://backend-caih.vercel.app/api/noticias-publicas";
 
   const { data, loading, error } = useFetch(url);
@@ -65,11 +64,16 @@ function NoticiasN() {
   }, []);
 
   if (loading) {
-    return <Loading />;
+    return <LoadingCard />;
   }
   if (error) {
     return <Error404 />;
   }
+
+  if (!data || data.length === 0) {
+    return <Noticias0 />;
+  }
+
   if (data) {
     // Ordenar las noticias por fecha de forma descendente
     const noticiasOrdenadas = data.sort(

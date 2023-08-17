@@ -41,6 +41,42 @@ function App() {
             <BrowserRouter>
               <RecorridosProvider>
                 <Routes>
+                  <Route path="/dashboard/*" element={<Dashboard />}>
+                    {/* Rutas anidadas bajo Dashboard */}
+                    <Route
+                      path="agregar-recorrido"
+                      element={<MapsRecorridos />}
+                    />
+                    <Route
+                      path="reportes-ciudadanos"
+                      element={<ReportesMaps />}
+                    />
+                    <Route
+                      path="validacionusuarios"
+                      element={<ValidarUsuarios />}
+                    />
+                    <Route path="usuario/:id" element={<UsuarioMasInf />} />
+                  </Route>
+                  <Route
+                    path="/dashboard"
+                    element={<Navigate to="/dashboard/agregar-recorrido" />}
+                  />
+                  <Route
+                    path="/dashboard"
+                    element={<Navigate to="/dashboard/validacionusuarios" />}
+                  />
+                  <Route
+                    path="/dashboard"
+                    element={<Navigate to="/dashboard/reportes-ciudadanos" />}
+                  />
+                  <Route
+                    path="/dashboard"
+                    element={<Navigate to="/dashboard/usuario/:id" />}
+                  />
+
+                  {/* DASBOARD DE PRUEBA */}
+                  <Route path="/dashprueba" element={<DefaultLayout />} />
+
                   <Route path="/" element={<Inicio />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
@@ -69,44 +105,7 @@ function App() {
                       path="/reportes-ciudadanos"
                       element={<ReportesMaps />}
                     />
-
-                    <Route path="/dashboard/*" element={<Dashboard />}>
-                      {/* Rutas anidadas bajo Dashboard */}
-                      <Route
-                        path="agregar-recorrido"
-                        element={<MapsRecorridos />}
-                      />
-                      <Route
-                        path="reportes-ciudadanos"
-                        element={<ReportesMaps />}
-                      />
-                      <Route
-                        path="validacionusuarios"
-                        element={<ValidarUsuarios />}
-                      />
-                      <Route path="usuario/:id" element={<UsuarioMasInf />} />
-                    </Route>
-                    <Route
-                      path="/dashboard"
-                      element={<Navigate to="/dashboard/agregar-recorrido" />}
-                    />
-                    <Route
-                      path="/dashboard"
-                      element={<Navigate to="/dashboard/validacionusuarios" />}
-                    />
-                    <Route
-                      path="/dashboard"
-                      element={<Navigate to="/dashboard/reportes-ciudadanos" />}
-                    />
-                    <Route
-                      path="/dashboard"
-                      element={<Navigate to="/dashboard/usuario/:id" />}
-                    />
-
-                    {/* DASBOARD DE PRUEBA */}
-                    <Route path="/dashprueba" element={<DefaultLayout />} />
                   </Route>
-
                   <Route path="*" element={<Error404 />} />
                 </Routes>
               </RecorridosProvider>

@@ -49,8 +49,8 @@ export const AuthProvider = ({ children }) => {
                 Hola {usuario.nombre}
               </p>
               <p className="mt-1 text-sm text-gray-500">
-                Tu solicitud fue enviada, en un par de dias reciviras un correo
-                electronico con tus datos para poder iniciar sesion.
+                Tu solicitud ha sido enviada. En un par de días, recibirás un
+                correo electrónico con tus datos para poder iniciar sesión.
               </p>
             </div>
           </div>
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (usuario) => {
     try {
       const res = await registerRequest(usuario);
-      setUsuario(res);
+      // setUsuario(res);
       // setIsAuthenticated(true);
       showRegistrationNotification(usuario);
     } catch (error) {

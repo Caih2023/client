@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Imagenes from "./ImgInicio";
 
 function NoticiasN() {
-  const urlocal = `http://localhost:3000/api/noticias`;
+  
   const url = "https://backend-caih.vercel.app/api/noticias-publicas";
 
   const { data, loading, error } = useFetch(url);

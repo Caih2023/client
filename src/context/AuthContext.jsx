@@ -164,7 +164,7 @@ export const AuthProvider = ({ children }) => {
       // }
       if (response.status === 200) setUsuarios(response.data); // Actualizar la lista de usuarios en el estado
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

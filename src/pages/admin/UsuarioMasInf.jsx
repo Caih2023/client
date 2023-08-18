@@ -41,7 +41,7 @@ Atentamente,
 Colegio de Arquitectos e Ingenieros Civiles de la Huasteca A.C.
 
 Información de acceso:
-Sitio web: https://caih.vercel.app/
+Sitio web: https://caih.vercel.app
 Nombre de usuario: ${userData ? userData.correo : ""}
 Contraseña: ${contras}`;
 

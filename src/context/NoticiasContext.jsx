@@ -25,7 +25,7 @@ export const NoticiasProvider = ({ children }) => {
   const getNoticias = async () => {
     const res = await getNoticiasRequest();
     try {
-      setNoticias(res.data);
+      setNoticias(res);
     } catch (error) {
       console.log(error);
     }

@@ -22,14 +22,33 @@ function UsuarioMasInf() {
   };
 
   const contras = generateRandomPassword(8);
-  const to = userData ? userData.correo : ""; // Initialize to an empty string if userData is null
+
+  const to = userData ? userData.correo : "";
   const subject = "Aceptacion de solicitud caih";
-  const text = "Tu contraseña es:\n" + contras;
+  const text = `Estimado ${userData ? userData.nombre : ""},
+
+Le escribo para informarle que su solicitud de membresía en el Colegio de Arquitectos ha sido aceptada. ¡Estamos encantados de tenerlo como miembro!
+
+Como parte de su proceso de membresía, le hemos asignado una contraseña. Estos datos se utilizan para acceder a nuestra plataforma en línea, donde podrá encontrar información sobre eventos, cursos y más.
+
+Para acceder a su cuenta, simplemente visite nuestro sitio web y haga clic en el botón "Inicio de sesión". Luego, ingrese su correo electrónico y contraseña en los campos correspondientes. Una vez que haya iniciado sesión, podrá ver todos los recursos disponibles para usted.
+
+Si tiene alguna pregunta sobre su membresía o sobre cómo usar nuestra plataforma en línea, no dude en ponerse en contacto con nosotros.
+
+Gracias de nuevo por elegirnos como su colegio profesional. Esperamos trabajar con usted en el futuro.
+
+Atentamente,
+Colegio de Arquitectos e Ingenieros Civiles de la Huasteca A.C.
+
+Información de acceso:
+Sitio web: https://caih.vercel.app/
+Nombre de usuario: ${userData ? userData.correo : ""}
+Contraseña: ${contras}`;
 
   const handleSubmitEmail = async () => {
     // e.preventDefault();
 
-    const response = await fetch("http://localhost:4000/api/send-email", {
+    const response = await fetch("http://localhost:3000/api/send-email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,9 +86,9 @@ function UsuarioMasInf() {
     // console.log("Estado actualizado exitosamente");
   };
 
-  const handelButtonClick = () => {
-    handleSelectAndUpdateStatus(id, "activo");
-    handleSubmitEmail();
+  const handelButtonClick = async () => {
+    await handleSubmitEmail();
+    handleSelectAndUpdateStatus(id, "activo"); 
     updateUsuarioContext(id, { contraseña: contras });
   };
 
@@ -159,7 +178,7 @@ function UsuarioMasInf() {
           <p>Fecha de nacimiento: {formatDate(userData.fechaN)}</p>
           <p>Trabajo actual_ {userData.trabajoA}</p>
           <p>Estado: {userData.status}</p>
-     
+
           {/* Botones de acción */}
           {userData.status === "activo" ? (
             <button

@@ -6,3 +6,4 @@ export { default as logo1 } from "./logo.png";
 export { default as perfil } from "./perfil.png";
 export { default as error } from "./404.png";
 export { default as errorfont } from "./404imagen.png";
+export { default as noticias0 } from "./noticias0.png";

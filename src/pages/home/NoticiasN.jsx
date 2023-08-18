@@ -71,8 +71,9 @@ function NoticiasN() {
   }
 
   if (!data || data.length === 0) {
-    return <Noticias0 />;
+    return <Noticias0/>;
   }
+  
 
   if (data) {
     // Ordenar las noticias por fecha de forma descendente

@@ -17,7 +17,6 @@ function Login() {
   const { signin, isAuthenticated, usuario } = useAuth();
   const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     signin(data);
   });
 

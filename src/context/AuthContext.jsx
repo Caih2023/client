@@ -90,11 +90,11 @@ export const AuthProvider = ({ children }) => {
       setUsuario(res);
       setIsAuthenticated(true);
     } catch (error) {
-      if (Array.isArray(error.response)) {
-        error.response.data.message.forEach((error) => toast.error(error));
-      } else {
-        toast.error(error);
-      }
+      // if (Array.isArray(error.response)) {
+      //   error.response.data.message.forEach((error) => toast.error(error));
+      // } else {
+      toast.error(error);
+      // }
     }
   };
 

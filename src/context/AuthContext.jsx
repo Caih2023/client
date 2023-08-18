@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }) => {
       if (Array.isArray(error.response)) {
         error.response.data.message.forEach((error) => toast.error(error));
       } else {
-      console.log(error.response);
+      console.log("authcontext",error);
         toast.error(error.response.data.message);
       }
     }
